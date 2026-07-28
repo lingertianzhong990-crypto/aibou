@@ -1,566 +1,86 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>相棒｜職人の事務をスマホで</title>
-  <style>
-    :root{
-      --blue:#135cc5; --blue2:#0d47a1; --bg:#f4f7fb; --card:#fff;
-      --text:#172033; --muted:#6b7280; --line:#dbe3ee; --danger:#c62828;
-      --green:#17823b; --orange:#d97706;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif}
-    button,input,select,textarea{font:inherit}
-    .app{max-width:760px;margin:0 auto;min-height:100vh;background:var(--bg)}
-    header{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:14px 16px}
-    .brand{font-size:24px;font-weight:800;color:var(--blue2)}
-    .tag{font-size:12px;color:var(--muted);margin-top:2px}
-    main{padding:16px 14px 100px}
-    .screen{display:none}.screen.active{display:block}
-    .hero{background:linear-gradient(135deg,var(--blue2),var(--blue));color:white;border-radius:20px;padding:22px;margin-bottom:16px;box-shadow:0 8px 24px rgba(13,71,161,.18)}
-    .hero h1{margin:0 0 8px;font-size:25px}.hero p{margin:0;opacity:.95;line-height:1.6}
-    .grid{display:grid;grid-template-columns:1fr;gap:12px}
-    .doc-btn{border:0;background:white;border-radius:16px;padding:18px;text-align:left;box-shadow:0 4px 14px rgba(17,24,39,.06);display:flex;align-items:center;gap:14px}
-    .doc-btn .icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;color:white;font-size:23px;font-weight:700}
-    .estimate{background:var(--blue)}.invoice{background:var(--green)}.receipt{background:var(--orange)}
-    .doc-btn strong{display:block;font-size:18px}.doc-btn small{color:var(--muted)}
-    .card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 4px 14px rgba(17,24,39,.05)}
-    .card h2,.card h3{margin:0 0 14px}
-    label{display:block;font-size:13px;font-weight:700;margin:13px 0 6px}
-    input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px;background:#fff;color:var(--text)}
-    textarea{min-height:82px;resize:vertical}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .row3{display:grid;grid-template-columns:1.3fr .6fr .7fr;gap:8px}
-    .primary,.secondary,.danger,.mini{border:0;border-radius:12px;padding:13px 16px;font-weight:700}
-    .primary{background:var(--blue);color:white;width:100%}
-    .secondary{background:#eaf1fb;color:var(--blue2);width:100%}
-    .danger{background:#fdecec;color:var(--danger)}
-    .mini{padding:9px 11px;background:#eef3f8;color:var(--text)}
-    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .item{border:1px solid var(--line);border-radius:13px;padding:12px;margin-bottom:10px;background:#fbfdff}
-    .item-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px}
-    .totals{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
-    .total-line{display:flex;justify-content:space-between;padding:5px 0}.grand{font-size:20px;font-weight:800}
-    .muted{color:var(--muted);font-size:13px}
-    .list-item{padding:13px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}
-    .list-item:last-child{border-bottom:0}
-    .badge{display:inline-block;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:700;background:#eef3f8}
-    nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom);z-index:10}
-    nav button{border:0;background:#fff;padding:10px 4px;font-size:12px;color:var(--muted)}
-    nav button.active{color:var(--blue);font-weight:800}
-    .preview-wrap{background:#cfd7e3;padding:10px;border-radius:14px;overflow:auto}
-    .paper{background:#fff;width:210mm;min-height:297mm;margin:auto;padding:15mm 16mm;color:#111;box-shadow:0 2px 10px rgba(0,0,0,.15);font-family:"Yu Mincho","Hiragino Mincho ProN",serif}
-    .paper h1{text-align:center;letter-spacing:.25em;margin:8px 0 24px}
-    .paper .top{display:flex;justify-content:space-between;gap:25px}
-    .paper .company{text-align:right;line-height:1.65}
-    .paper table{width:100%;border-collapse:collapse;margin-top:22px}
-    .paper th,.paper td{border:1px solid #555;padding:7px;font-size:13px}
-    .paper th{background:#f1f1f1}
-    .paper .sum{font-size:22px;font-weight:800;border-bottom:2px solid #111;padding:12px 0;margin:16px 0}
-    .paper .notes{margin-top:22px;white-space:pre-wrap;line-height:1.7}
-    .empty{text-align:center;color:var(--muted);padding:24px}
-    .image-upload{border:1px dashed var(--line);border-radius:13px;padding:12px;background:#fbfdff}
-    .image-preview{display:none;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
-    .image-preview img{max-width:150px;max-height:80px;object-fit:contain;border:1px solid var(--line);border-radius:10px;background:#fff;padding:5px}
-    .company-wrap{position:relative;min-width:220px;text-align:right}
-    .company-logo{display:block;max-width:150px;max-height:55px;object-fit:contain;margin:0 0 7px auto}
-    .company-seal{position:absolute;right:-4px;bottom:-16px;width:72px;height:72px;object-fit:contain;opacity:.9}
-    .invoice-date-field{display:none}
-    @media(max-width:600px){
-      .row,.actions{grid-template-columns:1fr}
-      .paper{transform:scale(.43);transform-origin:top left;margin-bottom:-165mm}
-      .preview-wrap{height:520px}
-    }
-    @media print{
-      body{background:#fff}
-      header,nav,.no-print{display:none!important}
-      main{padding:0}
-      .screen{display:none!important}
-      #previewScreen{display:block!important}
-      .preview-wrap{padding:0;background:white}
-      .paper{box-shadow:none;margin:0;width:210mm;min-height:297mm;transform:none}
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#111827" />
+<title>仕事アプリ Version 2.0</title>
+<style>
+:root{--bg:#f3f4f6;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#111827;--accent:#2563eb;--good:#059669;--warn:#d97706;--danger:#dc2626;--r:18px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI",sans-serif}button,input,textarea,select{font:inherit}.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:92px}.top{position:sticky;top:0;z-index:20;background:rgba(243,244,246,.92);backdrop-filter:blur(14px);padding:14px 16px 10px;border-bottom:1px solid rgba(229,231,235,.8)}.brand{display:flex;justify-content:space-between;align-items:center}.brand h1{font-size:21px;margin:0}.brand small{display:block;color:var(--muted);font-weight:500;margin-top:2px}.iconbtn{border:0;background:#fff;border-radius:12px;padding:10px 12px;box-shadow:0 1px 3px #0001}.screen{display:none;padding:14px 14px 24px}.screen.active{display:block}.hero{background:linear-gradient(135deg,#111827,#374151);color:#fff;border-radius:24px;padding:18px;margin-bottom:14px}.hero h2{margin:0 0 6px;font-size:20px}.hero p{margin:0;color:#d1d5db;font-size:14px}.prompt{margin-top:14px;background:#ffffff18;border:1px solid #ffffff22;padding:12px;border-radius:15px}.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:11px 14px;font-weight:700}.btn.primary{background:var(--accent);color:white}.btn.ghost{background:#eef2ff;color:#1d4ed8}.btn.dark{background:#111827;color:white}.btn.danger{background:#fee2e2;color:#b91c1c}.btn.small{padding:8px 10px;font-size:13px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px;box-shadow:0 1px 2px #00000008}.card h3{margin:0 0 7px;font-size:15px}.metric{font-size:25px;font-weight:800}.muted{color:var(--muted);font-size:13px}.section-title{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 9px}.section-title h2{font-size:17px;margin:0}.list{display:grid;gap:9px}.row{background:#fff;border:1px solid var(--line);border-radius:15px;padding:13px;display:flex;justify-content:space-between;gap:12px;align-items:center}.row-main{min-width:0}.row-title{font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row-sub{font-size:12px;color:var(--muted);margin-top:4px}.pill{font-size:11px;border-radius:999px;padding:5px 8px;background:#eef2ff;color:#3730a3;white-space:nowrap}.pill.good{background:#d1fae5;color:#065f46}.pill.warn{background:#fef3c7;color:#92400e}.pill.danger{background:#fee2e2;color:#991b1b}.empty{text-align:center;color:var(--muted);padding:28px 10px}.fab{position:fixed;right:max(18px,calc((100vw - 760px)/2 + 18px));bottom:88px;width:58px;height:58px;border:0;border-radius:20px;background:var(--accent);color:#fff;font-size:28px;box-shadow:0 10px 24px #2563eb55;z-index:30}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom));z-index:40}.nav button{border:0;background:none;color:#6b7280;font-size:11px;padding:5px}.nav button b{display:block;font-size:20px;margin-bottom:2px}.nav button.active{color:#111827;font-weight:800}.modal{position:fixed;inset:0;background:#0007;z-index:100;display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(760px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:26px 26px 0 0;padding:18px 16px calc(22px + env(safe-area-inset-bottom))}.sheet-head{display:flex;justify-content:space-between;align-items:center}.sheet h2{margin:0}.close{border:0;background:#f3f4f6;border-radius:999px;width:36px;height:36px}.field{margin-top:13px}.field label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;border:1px solid #d1d5db;border-radius:13px;padding:12px;background:#fff}.field textarea{min-height:90px;resize:vertical}.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.seg button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px}.seg button.sel{background:#111827;color:#fff}.timeline{border-left:2px solid #d1d5db;margin-left:8px;padding-left:16px}.timeitem{position:relative;margin:0 0 14px}.timeitem:before{content:"";position:absolute;left:-22px;top:5px;width:10px;height:10px;background:#2563eb;border-radius:50%;box-shadow:0 0 0 4px #dbeafe}.notice{padding:12px;border-radius:14px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:13px}.chips{display:flex;gap:8px;overflow:auto;padding-bottom:2px}.chip{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 11px;font-size:12px}.search{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}.hide{display:none!important}@media(min-width:620px){.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
 </head>
 <body>
 <div class="app">
-  <header>
-    <div class="brand">相棒</div>
-    <div class="tag">職人の未来に、相棒。</div>
-  </header>
+<header class="top"><div class="brand"><div><h1 id="pageTitle">ホーム</h1><small>考えなくても、仕事が進む。</small></div><button class="iconbtn" id="backupBtn">保存</button></div></header>
 
-  <main>
-    <section id="homeScreen" class="screen active">
-      <div class="hero">
-        <h1>見積も、請求も、領収書も。スマホだけ。</h1>
-        <p>自社情報と取引先を保存して、毎回の入力を最小限に。</p>
-      </div>
-      <div class="grid">
-        <button class="doc-btn" onclick="startDoc('estimate')"><span class="icon estimate">見</span><span><strong>見積書を作る</strong><small>見積内容をPDF化</small></span></button>
-        <button class="doc-btn" onclick="startDoc('invoice')"><span class="icon invoice">請</span><span><strong>請求書を作る</strong><small>振込先・支払期限にも対応</small></span></button>
-        <button class="doc-btn" onclick="startDoc('receipt')"><span class="icon receipt">領</span><span><strong>領収書を作る</strong><small>但し書きを入力して発行</small></span></button>
-      </div>
-      <div class="card" style="margin-top:16px">
-        <h3>はじめに</h3>
-        <div id="setupNotice" class="muted">設定画面から自社情報を登録してください。</div>
-      </div>
-    </section>
+<main>
+<section id="home" class="screen active">
+  <div class="hero"><h2 id="greeting">おはようございます</h2><p>今日も仕事を一つずつ進めましょう。</p><div class="prompt"><b>AIからの提案</b><div id="aiPrompt" style="margin-top:6px">案件を登録すると、見積・予定・日報・請求まで自動でつながります。</div><div class="actions" id="aiActions"><button class="btn primary small" onclick="openCreate('project')">案件を作る</button></div></div></div>
+  <div class="grid">
+    <div class="card"><h3>今日の予定</h3><div class="metric" id="todayCount">0</div><div class="muted">件</div></div>
+    <div class="card"><h3>進行中案件</h3><div class="metric" id="activeCount">0</div><div class="muted">件</div></div>
+    <div class="card"><h3>今月売上</h3><div class="metric" id="monthSales">¥0</div><div class="muted">入金済み</div></div>
+    <div class="card"><h3>未入金</h3><div class="metric" id="unpaidTotal">¥0</div><div class="muted">要確認</div></div>
+  </div>
+  <div class="section-title"><h2>今日やること</h2><button class="btn ghost small" onclick="openCreate('schedule')">＋予定</button></div><div id="todayList" class="list"></div>
+  <div class="section-title"><h2>最近の案件</h2><button class="btn ghost small" onclick="go('projects')">すべて</button></div><div id="recentProjects" class="list"></div>
+</section>
 
-    <section id="createScreen" class="screen">
-      <div class="card">
-        <h2 id="createTitle">書類作成</h2>
-        <label>取引先</label>
-        <select id="clientSelect" onchange="loadSelectedClient()"></select>
-        <button class="secondary" style="margin-top:10px" onclick="showClientForm()">＋ 新しい取引先を登録</button>
-      </div>
-
-      <div class="card" id="clientForm" style="display:none">
-        <h3>新規取引先</h3>
-        <label>会社名・氏名</label><input id="clientName">
-        <label>担当者名</label><input id="clientPerson">
-        <label>郵便番号</label><input id="clientZip">
-        <label>住所</label><input id="clientAddress">
-        <div class="actions" style="margin-top:12px">
-          <button class="primary" onclick="saveClient()">保存して選択</button>
-          <button class="secondary" onclick="hideClientForm()">閉じる</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <div><label>書類日付</label><input type="date" id="docDate"></div>
-          <div id="dueWrap"><label id="dueLabel">有効期限</label><input type="date" id="dueDate"></div>
-        </div>
-        <label>工事名・件名</label><input id="projectName" placeholder="例：○○様邸 フェンス工事">
-        <div id="itemsArea">
-          <label>明細</label>
-          <div id="items"></div>
-          <button class="secondary" onclick="addItem()">＋ 明細を追加</button>
-        </div>
-        <div id="receiptArea" style="display:none">
-          <label>金額</label><input type="number" id="receiptAmount" inputmode="numeric" placeholder="300000">
-          <label>但し書き</label><input id="receiptFor" placeholder="例：フェンス工事代として">
-        </div>
-        <label>備考</label><textarea id="notes" placeholder="例：お振込手数料はご負担ください。"></textarea>
-        <div class="totals" id="totalsBox">
-          <div class="total-line"><span>小計</span><strong id="subtotal">0円</strong></div>
-          <div class="total-line"><span>消費税（10%）</span><strong id="tax">0円</strong></div>
-          <div class="total-line grand"><span>合計</span><span id="total">0円</span></div>
-        </div>
-      </div>
-
-      <div class="actions no-print">
-        <button class="secondary" onclick="showScreen('homeScreen')">戻る</button>
-        <button class="primary" onclick="previewDoc()">確認する</button>
-      </div>
-    </section>
-
-    <section id="previewScreen" class="screen">
-      <div class="preview-wrap"><div id="paper" class="paper"></div></div>
-      
-<div class="actions no-print" style="margin-top:12px">
-  <button class="secondary" onclick="showScreen('createScreen')">修正する</button>
-  <button class="primary" onclick="window.print()">🖨️ 印刷する</button>
-</div>
-<div class="actions no-print" style="margin-top:10px">
-  <button class="primary" onclick="saveAndPrint()">📄 PDF化して保存する</button>
-  <button class="secondary" onclick="shareDocument()">📤 共有する</button>
-</div>
-<p class="muted no-print">
-「保存・PDF化」を押すと印刷画面が開きます。iPhoneでは共有ボタンから「ファイルに保存」でPDF保存できます。</p>
-    </section>
-
-    <section id="docsScreen" class="screen">
-      <div class="card">
-        <h2>書類一覧</h2>
-        <div id="docsList"></div>
-      </div>
-    </section>
-
-    <section id="clientsScreen" class="screen">
-      <div class="card">
-        <h2>取引先一覧</h2>
-        <div id="clientsList"></div>
-      </div>
-    </section>
-
-    <section id="settingsScreen" class="screen">
-      <div class="card">
-        <h2>自社情報</h2>
-        <label>社名・屋号</label><input id="bizName" placeholder="例：礎創建">
-        <label>代表者名</label><input id="bizRep">
-        <div class="row">
-          <div><label>郵便番号</label><input id="bizZip"></div>
-          <div><label>電話番号</label><input id="bizPhone"></div>
-        </div>
-        <label>住所</label><input id="bizAddress">
-        <label>メールアドレス</label><input id="bizEmail" type="email">
-        <label>振込先</label><textarea id="bizBank" placeholder="○○銀行 ○○支店 普通 1234567"></textarea>
-        <label>適格請求書発行事業者 登録番号</label><input id="bizInvoiceNo" placeholder="T1234567890123">
-
-        <label>会社・屋号ロゴ</label>
-        <div class="image-upload">
-          <input id="bizLogoFile" type="file" accept="image/*" onchange="handleImageUpload(event,'logo')">
-          <div id="logoPreviewWrap" class="image-preview">
-            <img id="logoPreview" alt="ロゴ画像">
-            <button type="button" class="danger mini" onclick="removeBusinessImage('logo')">ロゴを削除</button>
-          </div>
-          <div class="muted" style="margin-top:8px">PNG・JPEGなど。帳票の右上に表示します。</div>
-        </div>
-
-        <label>電子印鑑</label>
-        <div class="image-upload">
-          <input id="bizSealFile" type="file" accept="image/*" onchange="handleImageUpload(event,'seal')">
-          <div id="sealPreviewWrap" class="image-preview">
-            <img id="sealPreview" alt="電子印鑑画像">
-            <button type="button" class="danger mini" onclick="removeBusinessImage('seal')">印鑑を削除</button>
-          </div>
-          <div class="muted" style="margin-top:8px">背景透過PNGがおすすめです。帳票の自社情報付近に表示します。</div>
-        </div>
-
-        <button class="primary" style="margin-top:14px" onclick="saveSettings()">設定を保存</button>
-      </div>
-
-      <div class="card">
-        <h2>開発者情報</h2>
-        <p><strong>開発・運営：礎創建</strong></p>
-        <p class="muted" style="line-height:1.7">
-          建設現場で働く職人自身が、現場で本当に使いやすい事務サービスを目指して開発しています。
-        </p>
-        <label>会社案内・お問い合わせ先（今後追加）</label>
-        <div class="muted">電話番号、公式LINE、Instagram、ホームページなどを掲載予定。</div>
-        <div class="muted" style="margin-top:14px">相棒 試作品 Ver.0.3</div>
-      </div>
-    </section>
-  </main>
-
-  <nav class="no-print">
-    <button data-screen="homeScreen" class="active" onclick="showScreen('homeScreen',this)">ホーム</button>
-    <button data-screen="docsScreen" onclick="showScreen('docsScreen',this);renderDocs()">書類一覧</button>
-    <button data-screen="clientsScreen" onclick="showScreen('clientsScreen',this);renderClients()">取引先</button>
-    <button data-screen="settingsScreen" onclick="showScreen('settingsScreen',this)">設定</button>
-  </nav>
+<section id="projects" class="screen"><input class="search" placeholder="案件名・顧客名で検索" oninput="renderProjects(this.value)"><div class="section-title"><h2>案件一覧</h2><button class="btn primary small" onclick="openCreate('project')">新規案件</button></div><div id="projectList" class="list"></div></section>
+<section id="docs" class="screen"><div class="chips"><button class="chip" onclick="setDocFilter('all')">すべて</button><button class="chip" onclick="setDocFilter('estimate')">見積書</button><button class="chip" onclick="setDocFilter('invoice')">請求書</button><button class="chip" onclick="setDocFilter('receipt')">領収書</button></div><div class="section-title"><h2>書類</h2><button class="btn primary small" onclick="openCreate('doc')">新規作成</button></div><div id="docList" class="list"></div></section>
+<section id="daily" class="screen"><div class="section-title"><h2>日報</h2><button class="btn primary small" onclick="openCreate('daily')">今日の日報</button></div><div id="dailyList" class="list"></div></section>
+<section id="more" class="screen"><div class="grid"><div class="card" onclick="showMorePanel('schedule')"><h3>📅 予定帳</h3><div class="muted">リマインダー管理</div></div><div class="card" onclick="showMorePanel('customers')"><h3>👥 顧客</h3><div class="muted">取引先と履歴</div></div><div class="card" onclick="showMorePanel('sales')"><h3>📊 売上</h3><div class="muted">入金・未入金</div></div><div class="card" onclick="showMorePanel('settings')"><h3>⚙️ 設定</h3><div class="muted">会社情報・データ</div></div></div><div id="morePanel" style="margin-top:14px"></div></section>
+</main>
+<button class="fab" onclick="openQuick()">＋</button>
+<nav class="nav"><button class="active" data-screen="home" onclick="go('home')"><b>⌂</b>ホーム</button><button data-screen="projects" onclick="go('projects')"><b>▣</b>案件</button><button data-screen="docs" onclick="go('docs')"><b>▤</b>書類</button><button data-screen="daily" onclick="go('daily')"><b>✎</b>日報</button><button data-screen="more" onclick="go('more')"><b>•••</b>その他</button></nav>
 </div>
 
+<div id="modal" class="modal"><div class="sheet"><div class="sheet-head"><h2 id="modalTitle">新規作成</h2><button class="close" onclick="closeModal()">×</button></div><div id="modalBody"></div></div></div>
 <script>
-const $ = id => document.getElementById(id);
-let currentType = 'estimate';
-let itemCount = 0;
-let previewData = null;
-let currentLogoData = '';
-let currentSealData = '';
-
-const ymd = d => {
-  if(!d) return '';
-  const x = new Date(`${d}T00:00:00`);
-  if(Number.isNaN(x.getTime())) return '';
-  return `${x.getFullYear()}年${String(x.getMonth()+1).padStart(2,'0')}月${String(x.getDate()).padStart(2,'0')}日`;
-};
-const ymdShort = d => {
-  if(!d) return '';
-  const x = new Date(`${d}T00:00:00`);
-  if(Number.isNaN(x.getTime())) return '';
-  return `${x.getFullYear()}/${String(x.getMonth()+1).padStart(2,'0')}/${String(x.getDate()).padStart(2,'0')}`;
-};
-const yen = n => `${Math.round(Number(n)||0).toLocaleString('ja-JP')}円`;
-const load = (k, fallback) => JSON.parse(localStorage.getItem(k) || JSON.stringify(fallback));
-const save = (k,v) => localStorage.setItem(k,JSON.stringify(v));
-const esc = s => String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-
-function showScreen(id,btn){
-  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
-  $(id).classList.add('active');
-  if(btn){
-    document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
-    btn.classList.add('active');
-  }
-  window.scrollTo({top:0,behavior:'smooth'});
+const KEY='workos_v2_data';
+const seed={projects:[],customers:[],docs:[],daily:[],schedule:[],settings:{company:'',owner:''}};
+let data=load(),docFilter='all';
+function load(){try{return {...seed,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return structuredClone(seed)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));renderAll()}
+function yen(n){return new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY',maximumFractionDigits:0}).format(Number(n||0))}
+function today(){return new Date().toISOString().slice(0,10)}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function go(name){document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===name));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.screen===name));document.getElementById('pageTitle').textContent={home:'ホーム',projects:'案件',docs:'書類',daily:'日報',more:'その他'}[name];window.scrollTo({top:0,behavior:'smooth'});renderAll()}
+function openModal(title,html){modalTitle.textContent=title;modalBody.innerHTML=html;modal.classList.add('show')}
+function closeModal(){modal.classList.remove('show')}
+function openQuick(){openModal('何を作りますか？',`<div class="grid" style="margin-top:14px"><button class="card" onclick="openCreate('project')"><h3>📂 案件</h3></button><button class="card" onclick="openCreate('doc')"><h3>📄 書類</h3></button><button class="card" onclick="openCreate('daily')"><h3>📝 日報</h3></button><button class="card" onclick="openCreate('schedule')"><h3>📅 予定</h3></button></div>`)}
+function projectOptions(sel=''){return `<option value="">案件なし</option>`+data.projects.map(p=>`<option value="${p.id}" ${p.id===sel?'selected':''}>${esc(p.name)}</option>`).join('')}
+function openCreate(type,projectId=''){
+ if(type==='project')openModal('新しい案件',`<form onsubmit="createProject(event)"><div class="field"><label>案件名</label><input name="name" required placeholder="例：○○邸 外構工事"></div><div class="field"><label>顧客名</label><input name="customer" required placeholder="会社名・個人名"></div><div class="field"><label>開始日</label><input type="date" name="start" value="${today()}"></div><div class="field"><label>メモ</label><textarea name="memo"></textarea></div><div class="actions"><button class="btn primary" type="submit">案件を作成</button></div></form>`);
+ if(type==='doc')openModal('書類を作成',`<form onsubmit="createDoc(event)"><div class="field"><label>書類種別</label><select name="type"><option value="estimate">見積書</option><option value="invoice">請求書</option><option value="receipt">領収書</option></select></div><div class="field"><label>案件</label><select name="projectId">${projectOptions(projectId)}</select></div><div class="field"><label>宛名</label><input name="client" required></div><div class="field"><label>件名</label><input name="title" required></div><div class="field"><label>金額</label><input name="amount" type="number" min="0" required></div><div class="field"><label>発行日</label><input name="date" type="date" value="${today()}"></div><div class="actions"><button class="btn primary">保存する</button></div></form>`);
+ if(type==='daily')openModal('日報を作成',`<form onsubmit="createDaily(event)"><div class="field"><label>案件</label><select name="projectId">${projectOptions(projectId)}</select></div><div class="field"><label>日付</label><input name="date" type="date" value="${today()}"></div><div class="field"><label>作業内容</label><textarea name="work" required placeholder="今日行った作業"></textarea></div><div class="field"><label>人員</label><input name="people" type="number" min="1" value="1"></div><div class="field"><label>気づき・申し送り</label><textarea name="note"></textarea></div><div class="actions"><button class="btn primary">日報を保存</button></div></form>`);
+ if(type==='schedule')openModal('予定を追加',`<form onsubmit="createSchedule(event)"><div class="field"><label>予定名</label><input name="title" required></div><div class="field"><label>案件</label><select name="projectId">${projectOptions(projectId)}</select></div><div class="field"><label>日時</label><input name="datetime" type="datetime-local" required></div><div class="field"><label>通知</label><select name="remind"><option value="0">時刻になったら</option><option value="30">30分前</option><option value="60">1時間前</option><option value="1440">1日前</option></select></div><div class="actions"><button class="btn primary">予定に追加</button></div></form>`)
 }
-
-function init(){
-  const today = new Date().toISOString().slice(0,10);
-  $('docDate').value = today;
-  const next = new Date(); next.setDate(next.getDate()+30);
-  $('dueDate').value = next.toISOString().slice(0,10);
-  loadSettings();
-  refreshClients();
-  addItem();
-  const s = load('aibou_settings',{});
-  $('setupNotice').textContent = s.name ? `${s.name} の情報が登録されています。` : '設定画面から自社情報を登録してください。';
-}
-
-function startDoc(type){
-  currentType = type;
-  const labels = {estimate:'見積書',invoice:'請求書',receipt:'領収書'};
-  $('createTitle').textContent = labels[type]+'作成';
-  $('dueWrap').style.display = type==='receipt' ? 'none':'block';
-  $('dueLabel').textContent = type==='invoice' ? '支払期限':'有効期限';
-  $('itemsArea').style.display = type==='receipt' ? 'none':'block';
-  $('receiptArea').style.display = type==='receipt' ? 'block':'none';
-  $('totalsBox').style.display = type==='receipt' ? 'none':'block';
-  refreshClients();
-  updateItemDateVisibility();
-  showScreen('createScreen');
-}
-
-function updateItemDateVisibility(){
-  document.querySelectorAll('.invoice-date-field').forEach(el=>{
-    el.style.display = currentType==='invoice' ? 'block' : 'none';
-  });
-}
-
-function addItem(data={}){
-  itemCount++;
-  const id = itemCount;
-  const div = document.createElement('div');
-  div.className='item'; div.dataset.id=id;
-  div.innerHTML=`
-    <div class="item-head"><strong>明細 ${document.querySelectorAll('.item').length+1}</strong><button class="danger mini" onclick="removeItem(${id})">削除</button></div>
-    <div class="invoice-date-field">
-      <label>作業日・請求日</label><input class="item-date" type="date" value="${esc(data.date||$('docDate').value||'')}">
-    </div>
-    <label>品名・工事内容</label><input class="item-name" value="${esc(data.name||'')}">
-    <div class="row3">
-      <div><label>数量</label><input class="item-qty" type="number" step="0.01" value="${data.qty??1}" oninput="calcTotals()"></div>
-      <div><label>単位</label><input class="item-unit" value="${esc(data.unit||'式')}"></div>
-      <div><label>単価</label><input class="item-price" type="number" value="${data.price??''}" inputmode="numeric" oninput="calcTotals()"></div>
-    </div>`;
-  $('items').appendChild(div);
-  updateItemDateVisibility();
-  calcTotals();
-}
-function removeItem(id){ const el=document.querySelector(`.item[data-id="${id}"]`); if(el) el.remove(); calcTotals(); }
-function calcTotals(){
-  let sub=0;
-  document.querySelectorAll('.item').forEach(el=>{
-    sub += (Number(el.querySelector('.item-qty').value)||0)*(Number(el.querySelector('.item-price').value)||0);
-  });
-  const tax=Math.floor(sub*.10), total=sub+tax;
-  $('subtotal').textContent=yen(sub); $('tax').textContent=yen(tax); $('total').textContent=yen(total);
-}
-
-function showClientForm(){ $('clientForm').style.display='block'; }
-function hideClientForm(){ $('clientForm').style.display='none'; }
-
-function saveClient(){
-  const name=$('clientName').value.trim();
-  if(!name){ alert('取引先名を入力してください。'); return; }
-  const clients=load('aibou_clients',[]);
-  const c={id:Date.now(),name,person:$('clientPerson').value.trim(),zip:$('clientZip').value.trim(),address:$('clientAddress').value.trim()};
-  clients.push(c); save('aibou_clients',clients);
-  ['clientName','clientPerson','clientZip','clientAddress'].forEach(id=>$(id).value='');
-  hideClientForm(); refreshClients(c.id); renderClients();
-}
-
-function refreshClients(selectedId){
-  const clients=load('aibou_clients',[]);
-  $('clientSelect').innerHTML='<option value="">取引先を選択してください</option>'+clients.map(c=>`<option value="${c.id}">${esc(c.name)}${c.person?'／'+esc(c.person):''}</option>`).join('');
-  if(selectedId) $('clientSelect').value=String(selectedId);
-}
-function loadSelectedClient(){}
-
-function collectItems(){
-  return [...document.querySelectorAll('.item')].map(el=>({
-    date:el.querySelector('.item-date')?.value||'',
-    name:el.querySelector('.item-name').value.trim(),
-    qty:Number(el.querySelector('.item-qty').value)||0,
-    unit:el.querySelector('.item-unit').value.trim(),
-    price:Number(el.querySelector('.item-price').value)||0
-  })).filter(x=>x.name||x.price);
-}
-
-function previewDoc(){
-  const settings=load('aibou_settings',{});
-  if(!settings.name){ alert('先に設定画面で自社情報を登録してください。'); showScreen('settingsScreen'); return; }
-  const clientId=Number($('clientSelect').value);
-  const client=load('aibou_clients',[]).find(c=>c.id===clientId);
-  if(!client){ alert('取引先を選択してください。'); return; }
-
-  const items=collectItems();
-  if(currentType!=='receipt' && items.length===0){ alert('明細を1件以上入力してください。'); return; }
-
-  let sub=0;
-  items.forEach(x=>sub+=x.qty*x.price);
-  const tax=Math.floor(sub*.10), total=sub+tax;
-  previewData={
-    id:Date.now(), type:currentType, date:$('docDate').value, due:$('dueDate').value,
-    project:$('projectName').value.trim(), notes:$('notes').value.trim(),
-    client, settings, items, sub, tax, total,
-    receiptAmount:Number($('receiptAmount').value)||0,
-    receiptFor:$('receiptFor').value.trim()
-  };
-  renderPaper(previewData); showScreen('previewScreen');
-}
-
-function renderPaper(d){
-  const title={estimate:'御 見 積 書',invoice:'御 請 求 書',receipt:'領 収 書'}[d.type];
-  const dueText=d.type==='estimate'?'見積有効期限':d.type==='invoice'?'支払期限':'';
-  const number=`${d.type==='estimate'?'M':d.type==='invoice'?'S':'R'}-${String(d.id).slice(-8)}`;
-  const total=d.type==='receipt'?d.receiptAmount:d.total;
-  let body='';
-  if(d.type==='receipt'){
-    body=`
-      <div class="sum">金額　${yen(total)}（税込）</div>
-      <p>但し、${esc(d.receiptFor||d.project||'工事代')}として</p>
-      <p>上記、正に領収いたしました。</p>`;
-  }else{
-    body=`
-      <div class="sum">合計金額　${yen(total)}（税込）</div>
-      <table>
-        <thead><tr>${d.type==='invoice'?'<th>日付</th>':''}<th>品名・工事内容</th><th>数量</th><th>単位</th><th>単価</th><th>金額</th></tr></thead>
-        <tbody>${d.items.map(x=>`<tr>${d.type==='invoice'?`<td>${esc(ymdShort(x.date||''))}</td>`:''}<td>${esc(x.name)}</td><td style="text-align:right">${x.qty}</td><td>${esc(x.unit)}</td><td style="text-align:right">${yen(x.price)}</td><td style="text-align:right">${yen(x.qty*x.price)}</td></tr>`).join('')}</tbody>
-      </table>
-      <table style="width:45%;margin-left:auto">
-        <tr><th>小計</th><td style="text-align:right">${yen(d.sub)}</td></tr>
-        <tr><th>消費税</th><td style="text-align:right">${yen(d.tax)}</td></tr>
-        <tr><th>合計</th><td style="text-align:right"><strong>${yen(d.total)}</strong></td></tr>
-      </table>`;
-  }
-  $('paper').innerHTML=`
-    <div style="text-align:right;font-size:13px">発行日：${ymd(d.date)}<br>書類番号：${number}${dueText?`<br>${dueText}：${ymd(d.due)}`:''}</div>
-    <h1>${title}</h1>
-    <div class="top">
-      <div style="font-size:17px;line-height:1.8"><strong>${esc(d.client.name)} ${d.client.person?esc(d.client.person)+' 様':'御中'}</strong><br>${d.project?esc(d.project):''}</div>
-      <div class="company company-wrap">
-        ${d.settings.logo?`<img class="company-logo" src="${d.settings.logo}" alt="会社ロゴ">`:''}
-        <strong>${esc(d.settings.name)}</strong><br>
-        ${d.settings.rep?`代表 ${esc(d.settings.rep)}<br>`:''}
-        ${esc(d.settings.zip||'')} ${esc(d.settings.address||'')}<br>
-        ${esc(d.settings.phone||'')}<br>
-        ${esc(d.settings.email||'')}
-        ${d.settings.invoiceNo?`<br>登録番号：${esc(d.settings.invoiceNo)}`:''}
-        ${d.settings.seal?`<img class="company-seal" src="${d.settings.seal}" alt="電子印鑑">`:''}
-      </div>
-    </div>
-    ${body}
-    ${d.type==='invoice'&&d.settings.bank?`<div class="notes"><strong>お振込先</strong><br>${esc(d.settings.bank)}</div>`:''}
-    ${d.notes?`<div class="notes"><strong>備考</strong><br>${esc(d.notes)}</div>`:''}`;
-}
-
-
-async function shareDocument(){
-  if(navigator.share){
-    try{
-      await navigator.share({
-        title:'相棒',
-        text:'作成した書類を共有'
-      });
-    }catch(e){}
-  }else{
-    alert('この端末では共有機能に対応していません。');
-  }
-}
-
-function saveAndPrint(){
-  if(!previewData) return;
-  const docs=load('aibou_docs',[]);
-  if(!docs.some(x=>x.id===previewData.id)){ docs.unshift(previewData); save('aibou_docs',docs); }
-  renderDocs();
-  window.print();
-}
-
-function renderDocs(){
-  const docs=load('aibou_docs',[]);
-  const labels={estimate:'見積書',invoice:'請求書',receipt:'領収書'};
-  $('docsList').innerHTML=docs.length?docs.map(d=>`
-    <div class="list-item">
-      <div><strong>${labels[d.type]}</strong> <span class="badge">${esc(d.client.name)}</span><br><span class="muted">${d.project||''}／${ymd(d.date)}</span></div>
-      <div style="text-align:right"><strong>${yen(d.type==='receipt'?d.receiptAmount:d.total)}</strong><br><button class="mini" onclick="openSaved(${d.id})">開く</button></div>
-    </div>`).join(''):'<div class="empty">保存済みの書類はありません。</div>';
-}
-
-function openSaved(id){
-  const d=load('aibou_docs',[]).find(x=>x.id===id);
-  if(!d)return; previewData=d; renderPaper(d); showScreen('previewScreen');
-}
-
-function renderClients(){
-  const clients=load('aibou_clients',[]);
-  $('clientsList').innerHTML=clients.length?clients.map(c=>`
-    <div class="list-item"><div><strong>${esc(c.name)}</strong><br><span class="muted">${esc(c.person||'')}${c.address?'／'+esc(c.address):''}</span></div><button class="danger mini" onclick="deleteClient(${c.id})">削除</button></div>`).join(''):'<div class="empty">登録済みの取引先はありません。</div>';
-}
-function deleteClient(id){
-  if(!confirm('この取引先を削除しますか？'))return;
-  save('aibou_clients',load('aibou_clients',[]).filter(c=>c.id!==id)); refreshClients(); renderClients();
-}
-
-function resizeImage(file, maxWidth, maxHeight, quality=.82){
-  return new Promise((resolve,reject)=>{
-    const reader=new FileReader();
-    reader.onerror=()=>reject(new Error('画像を読み込めませんでした。'));
-    reader.onload=()=>{
-      const img=new Image();
-      img.onerror=()=>reject(new Error('画像形式を確認してください。'));
-      img.onload=()=>{
-        let w=img.width, h=img.height;
-        const ratio=Math.min(maxWidth/w,maxHeight/h,1);
-        w=Math.round(w*ratio); h=Math.round(h*ratio);
-        const canvas=document.createElement('canvas');
-        canvas.width=w; canvas.height=h;
-        const ctx=canvas.getContext('2d');
-        ctx.clearRect(0,0,w,h);
-        ctx.drawImage(img,0,0,w,h);
-        const mime=file.type==='image/png'?'image/png':'image/jpeg';
-        resolve(canvas.toDataURL(mime,mime==='image/png'?undefined:quality));
-      };
-      img.src=reader.result;
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-async function handleImageUpload(event,type){
-  const file=event.target.files?.[0];
-  if(!file) return;
-  if(!file.type.startsWith('image/')){
-    alert('画像ファイルを選択してください。');
-    event.target.value='';
-    return;
-  }
-  try{
-    const data=await resizeImage(file,type==='logo'?900:500,type==='logo'?400:500);
-    if(type==='logo') currentLogoData=data;
-    if(type==='seal') currentSealData=data;
-    renderBusinessImagePreviews();
-  }catch(err){
-    alert(err.message||'画像の読み込みに失敗しました。');
-  }
-}
-
-function removeBusinessImage(type){
-  if(type==='logo'){
-    currentLogoData='';
-    $('bizLogoFile').value='';
-  }else{
-    currentSealData='';
-    $('bizSealFile').value='';
-  }
-  renderBusinessImagePreviews();
-}
-
-function renderBusinessImagePreviews(){
-  $('logoPreviewWrap').style.display=currentLogoData?'flex':'none';
-  $('sealPreviewWrap').style.display=currentSealData?'flex':'none';
-  if(currentLogoData) $('logoPreview').src=currentLogoData;
-  if(currentSealData) $('sealPreview').src=currentSealData;
-}
-
-function saveSettings(){
-  const s={name:$('bizName').value.trim(),rep:$('bizRep').value.trim(),zip:$('bizZip').value.trim(),phone:$('bizPhone').value.trim(),address:$('bizAddress').value.trim(),email:$('bizEmail').value.trim(),bank:$('bizBank').value.trim(),invoiceNo:$('bizInvoiceNo').value.trim(),logo:currentLogoData,seal:currentSealData};
-  if(!s.name){alert('社名・屋号を入力してください。');return;}
-  save('aibou_settings',s); $('setupNotice').textContent=`${s.name} の情報が登録されています。`; alert('自社情報を保存しました。');
-}
-function loadSettings(){
-  const s=load('aibou_settings',{});
-  $('bizName').value=s.name||''; $('bizRep').value=s.rep||''; $('bizZip').value=s.zip||''; $('bizPhone').value=s.phone||''; $('bizAddress').value=s.address||''; $('bizEmail').value=s.email||''; $('bizBank').value=s.bank||''; $('bizInvoiceNo').value=s.invoiceNo||'';
-  currentLogoData=s.logo||'';
-  currentSealData=s.seal||'';
-  renderBusinessImagePreviews();
-}
-
-init();
+function createProject(e){e.preventDefault();let f=new FormData(e.target),c=f.get('customer').trim();let customer=data.customers.find(x=>x.name===c);if(!customer){customer={id:id(),name:c,phone:'',email:''};data.customers.push(customer)}let p={id:id(),name:f.get('name'),customerId:customer.id,start:f.get('start'),status:'active',memo:f.get('memo'),created:Date.now()};data.projects.unshift(p);save();closeModal();askAfter('案件を作成しました','この案件の見積書を作成しますか？',()=>openCreate('doc',p.id))}
+function createDoc(e){e.preventDefault();let f=new FormData(e.target),d={id:id(),type:f.get('type'),projectId:f.get('projectId'),client:f.get('client'),title:f.get('title'),amount:Number(f.get('amount')),date:f.get('date'),paid:f.get('type')==='receipt',created:Date.now()};data.docs.unshift(d);save();closeModal();if(d.type==='estimate')askAfter('見積書を保存しました','提出予定を予定帳へ登録しますか？',()=>openCreate('schedule',d.projectId));if(d.type==='invoice')askAfter('請求書を保存しました','入金予定日のリマインダーを登録しますか？',()=>openCreate('schedule',d.projectId))}
+function createDaily(e){e.preventDefault();let f=new FormData(e.target);data.daily.unshift({id:id(),projectId:f.get('projectId'),date:f.get('date'),work:f.get('work'),people:Number(f.get('people')),note:f.get('note'),created:Date.now()});save();closeModal();askAfter('日報を保存しました','この案件の次の予定を登録しますか？',()=>openCreate('schedule',f.get('projectId')))}
+function createSchedule(e){e.preventDefault();let f=new FormData(e.target);data.schedule.unshift({id:id(),title:f.get('title'),projectId:f.get('projectId'),datetime:f.get('datetime'),remind:Number(f.get('remind')),done:false,created:Date.now()});save();closeModal()}
+function askAfter(title,q,yes){openModal(title,`<div class="notice" style="margin-top:14px">${q}</div><div class="actions"><button class="btn primary" id="yesNext">はい</button><button class="btn ghost" onclick="closeModal()">あとで</button></div>`);yesNext.onclick=yes}
+function projectName(pid){return data.projects.find(p=>p.id===pid)?.name||'案件なし'}
+function customerName(cid){return data.customers.find(c=>c.id===cid)?.name||''}
+function renderAll(){renderHome();renderProjects();renderDocs();renderDaily();if(document.getElementById('more').classList.contains('active'))showMorePanel('schedule')}
+function renderHome(){let t=today();let todays=data.schedule.filter(s=>s.datetime?.slice(0,10)===t&&!s.done);todayCount.textContent=todays.length;activeCount.textContent=data.projects.filter(p=>p.status==='active').length;let now=new Date(),sales=data.docs.filter(d=>d.type!=='estimate'&&d.paid&&new Date(d.date).getMonth()===now.getMonth()&&new Date(d.date).getFullYear()===now.getFullYear()).reduce((a,b)=>a+b.amount,0);monthSales.textContent=yen(sales);let unpaid=data.docs.filter(d=>d.type==='invoice'&&!d.paid).reduce((a,b)=>a+b.amount,0);unpaidTotal.textContent=yen(unpaid);todayList.innerHTML=todays.length?todays.map(s=>rowHtml(s.title,new Date(s.datetime).toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})+'・'+projectName(s.projectId),`<button class="btn ghost small" onclick="doneSchedule('${s.id}')">完了</button>`)).join(''):'<div class="empty">今日の予定はありません</div>';recentProjects.innerHTML=data.projects.slice(0,3).map(p=>rowHtml(p.name,customerName(p.customerId)+'・'+(p.start||''),'<span class="pill good">進行中</span>',`openProject('${p.id}')`)).join('')||'<div class="empty">最初の案件を作成しましょう</div>';let msg='案件を登録すると、見積・予定・日報・請求まで自動でつながります。',act=`<button class="btn primary small" onclick="openCreate('project')">案件を作る</button>`;let unpaidDoc=data.docs.find(d=>d.type==='invoice'&&!d.paid);if(unpaidDoc){msg=`${esc(unpaidDoc.client)}の請求 ${yen(unpaidDoc.amount)} が未入金です。`;act=`<button class="btn primary small" onclick="markPaid('${unpaidDoc.id}')">入金済みにする</button>`}else if(data.projects.length&&!data.daily.find(d=>d.date===t)){msg='今日の日報がまだ作成されていません。';act=`<button class="btn primary small" onclick="openCreate('daily')">日報を作る</button>`}aiPrompt.innerHTML=msg;aiActions.innerHTML=act}
+function rowHtml(title,sub,right='',click=''){return `<div class="row" ${click?`onclick="${click}"`:''}><div class="row-main"><div class="row-title">${esc(title)}</div><div class="row-sub">${esc(sub)}</div></div>${right}</div>`}
+function renderProjects(q=''){let list=data.projects.filter(p=>(p.name+' '+customerName(p.customerId)).toLowerCase().includes(q.toLowerCase()));projectList.innerHTML=list.map(p=>rowHtml(p.name,customerName(p.customerId)+'・開始 '+(p.start||'未定'),'<span class="pill good">進行中</span>',`openProject('${p.id}')`)).join('')||'<div class="empty">案件がありません</div>'}
+function openProject(pid){let p=data.projects.find(x=>x.id===pid);if(!p)return;let docs=data.docs.filter(d=>d.projectId===pid),daily=data.daily.filter(d=>d.projectId===pid),sched=data.schedule.filter(s=>s.projectId===pid);openModal(p.name,`<div class="muted" style="margin-top:6px">${esc(customerName(p.customerId))}</div><div class="actions"><button class="btn ghost small" onclick="openCreate('doc','${pid}')">書類</button><button class="btn ghost small" onclick="openCreate('daily','${pid}')">日報</button><button class="btn ghost small" onclick="openCreate('schedule','${pid}')">予定</button></div><div class="section-title"><h2>案件タイムライン</h2></div><div class="timeline">${[...docs.map(x=>({date:x.date,text:{estimate:'見積書',invoice:'請求書',receipt:'領収書'}[x.type]+' '+yen(x.amount)})),...daily.map(x=>({date:x.date,text:'日報：'+x.work.slice(0,30)})),...sched.map(x=>({date:x.datetime?.slice(0,10),text:'予定：'+x.title}))].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(x=>`<div class="timeitem"><b>${esc(x.text)}</b><div class="muted">${esc(x.date||'')}</div></div>`).join('')||'<div class="empty">履歴はまだありません</div>'}</div>`)}
+function setDocFilter(f){docFilter=f;renderDocs()}
+function renderDocs(){let l=data.docs.filter(d=>docFilter==='all'||d.type===docFilter);docList.innerHTML=l.map(d=>rowHtml(({estimate:'見積書',invoice:'請求書',receipt:'領収書'}[d.type])+'｜'+d.title,d.client+'・'+d.date,`<span class="pill ${d.paid?'good':d.type==='invoice'?'warn':''}">${yen(d.amount)}</span>`,d.type==='invoice'&&!d.paid?`markPaid('${d.id}')`:'' )).join('')||'<div class="empty">書類がありません</div>'}
+function renderDaily(){dailyList.innerHTML=data.daily.map(d=>rowHtml(d.date+'｜'+projectName(d.projectId),d.work,`<span class="pill">${d.people}人</span>`)).join('')||'<div class="empty">日報がありません</div>'}
+function doneSchedule(sid){let s=data.schedule.find(x=>x.id===sid);if(s)s.done=true;save()}
+function markPaid(did){let d=data.docs.find(x=>x.id===did);if(d){d.paid=true;save();closeModal()}}
+function showMorePanel(type){if(type==='schedule'){morePanel.innerHTML=`<div class="section-title"><h2>予定帳</h2><button class="btn primary small" onclick="openCreate('schedule')">追加</button></div><div class="list">${data.schedule.map(s=>rowHtml(s.title,new Date(s.datetime).toLocaleString('ja-JP')+'・'+projectName(s.projectId),s.done?'<span class="pill good">完了</span>':'<span class="pill warn">予定</span>')).join('')||'<div class="empty">予定がありません</div>'}</div>`}if(type==='customers'){morePanel.innerHTML=`<div class="section-title"><h2>顧客</h2></div><div class="list">${data.customers.map(c=>rowHtml(c.name,data.projects.filter(p=>p.customerId===c.id).length+'案件')).join('')||'<div class="empty">顧客がありません</div>'}</div>`}if(type==='sales'){let inv=data.docs.filter(d=>d.type==='invoice');morePanel.innerHTML=`<div class="section-title"><h2>売上・入金</h2></div><div class="grid"><div class="card"><h3>請求総額</h3><div class="metric">${yen(inv.reduce((a,b)=>a+b.amount,0))}</div></div><div class="card"><h3>未入金</h3><div class="metric">${yen(inv.filter(x=>!x.paid).reduce((a,b)=>a+b.amount,0))}</div></div></div>`}if(type==='settings'){morePanel.innerHTML=`<div class="section-title"><h2>設定</h2></div><div class="card"><div class="field"><label>会社名</label><input id="companyInput" value="${esc(data.settings.company||'')}"></div><div class="field"><label>代表者名</label><input id="ownerInput" value="${esc(data.settings.owner||'')}"></div><div class="actions"><button class="btn primary" onclick="saveSettings()">保存</button><button class="btn danger" onclick="resetData()">全データ削除</button></div></div>`}}
+function saveSettings(){data.settings.company=companyInput.value;data.settings.owner=ownerInput.value;save()}
+function resetData(){if(confirm('すべてのデータを削除しますか？')){data=structuredClone(seed);save()}}
+backupBtn.onclick=()=>{let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='workos-backup.json';a.click();URL.revokeObjectURL(a.href)};
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+const h=new Date().getHours();greeting.textContent=h<11?'おはようございます':h<18?'こんにちは':'お疲れさまです';renderAll();
 </script>
 </body>
 </html>
