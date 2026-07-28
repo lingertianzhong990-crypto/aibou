@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>相棒｜職人の事務をスマホで</title>
+  <title>相棒｜見積・請求・領収書をスマホで</title>
   <style>
     :root{
       --blue:#135cc5; --blue2:#0d47a1; --bg:#f4f7fb; --card:#fff;
@@ -159,8 +159,8 @@
 
     <section id="previewScreen" class="screen">
       <div class="card complete-card no-print">
-        <div class="complete-check">☑️</div>
-        <div class="complete-title">書類が完成しました！</div>
+        <div class="complete-check">🎉</div>
+        <div class="complete-title">書類完成しました☑️</div>
         <div class="muted">内容を確認して、出力方法を選んでください。</div>
       </div>
 
@@ -193,7 +193,7 @@
 
     <section id="settingsScreen" class="screen">
       <div class="card">
-        <h2>自社情報</h2><div class="badge">Ver.0.5</div>
+        <h2>自社情報</h2><div class="badge">完全版 Ver.1.0</div>
         <label>社名・屋号</label><input id="bizName" placeholder="例：礎創建">
         <label>代表者名</label><input id="bizRep">
         <div class="row">
@@ -236,7 +236,7 @@
         </p>
         <label>会社案内・お問い合わせ先（今後追加）</label>
         <div class="muted">電話番号、公式LINE、Instagram、ホームページなどを掲載予定。</div>
-        <div class="muted" style="margin-top:14px">相棒 試作品 Ver.0.3</div>
+        <div class="muted" style="margin-top:14px">相棒 完全版 Ver.1.0</div>
       </div>
     </section>
   </main>
@@ -324,7 +324,7 @@ function addItem(data={}){
   div.innerHTML=`
     <div class="item-head"><strong>明細 ${document.querySelectorAll('.item').length+1}</strong><button class="danger mini" onclick="removeItem(${id})">削除</button></div>
     <div class="invoice-date-field">
-      <label>作業日・請求日</label><input class="item-date" type="date" value="${esc(data.date||$('docDate').value||'')}">
+      <label>日付</label><input class="item-date" type="date" value="${esc(data.date||$('docDate').value||'')}">
     </div>
     <label>品名・工事内容</label><input class="item-name" value="${esc(data.name||'')}">
     <div class="row3">
@@ -414,8 +414,8 @@ function renderPaper(d){
     body=`
       <div class="sum">合計金額　${yen(total)}（税込）</div>
       <table>
-        <thead><tr>${d.type==='invoice'?'<th>日付</th>':''}<th>品名・工事内容</th><th>数量</th><th>単位</th><th>単価</th><th>金額</th></tr></thead>
-        <tbody>${d.items.map(x=>`<tr>${d.type==='invoice'?`<td>${esc(ymdShort(x.date||''))}</td>`:''}<td>${esc(x.name)}</td><td style="text-align:right">${x.qty}</td><td>${esc(x.unit)}</td><td style="text-align:right">${yen(x.price)}</td><td style="text-align:right">${yen(x.qty*x.price)}</td></tr>`).join('')}</tbody>
+        <thead><tr>${d.type!=='receipt'?'<th>日付</th>':''}<th>品名・工事内容</th><th>数量</th><th>単位</th><th>単価</th><th>金額</th></tr></thead>
+        <tbody>${d.items.map(x=>`<tr>${d.type!=='receipt'?`<td>${esc(ymdShort(x.date||''))}</td>`:''}<td>${esc(x.name)}</td><td style="text-align:right">${x.qty}</td><td>${esc(x.unit)}</td><td style="text-align:right">${yen(x.price)}</td><td style="text-align:right">${yen(x.qty*x.price)}</td></tr>`).join('')}</tbody>
       </table>
       <table style="width:45%;margin-left:auto">
         <tr><th>小計</th><td style="text-align:right">${yen(d.sub)}</td></tr>
