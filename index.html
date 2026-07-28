@@ -158,18 +158,23 @@
     </section>
 
     <section id="previewScreen" class="screen">
+      <div class="card complete-card no-print">
+        <div class="complete-check">☑️</div>
+        <div class="complete-title">書類が完成しました！</div>
+        <div class="muted">内容を確認して、出力方法を選んでください。</div>
+      </div>
+
       <div class="preview-wrap"><div id="paper" class="paper"></div></div>
-      
-<div class="actions no-print" style="margin-top:12px">
-  <button class="secondary" onclick="showScreen('createScreen')">修正する</button>
-  <button class="primary" onclick="window.print()">🖨️ 印刷する</button>
-</div>
-<div class="actions no-print" style="margin-top:10px">
-  <button class="primary" onclick="saveAndPrint()">📄 PDF化して保存する</button>
-  <button class="secondary" onclick="shareDocument()">📤 共有する</button>
-</div>
-<p class="muted no-print">
-「保存・PDF化」を押すと印刷画面が開きます。iPhoneでは共有ボタンから「ファイルに保存」でPDF保存できます。</p>
+
+      <div class="card no-print" style="margin-top:12px">
+        <h3>出力方法</h3>
+        <button class="primary" onclick="printDocument()">🖨️ 印刷する</button>
+        <button class="secondary" style="margin-top:10px" onclick="saveAsPdf()">📄 PDF化して保存する</button>
+        <button class="mini" style="width:100%;margin-top:10px" onclick="showScreen('createScreen')">内容を修正する</button>
+        <p class="muted" style="margin:12px 0 0">
+          PDF保存では、次の画面の共有ボタンから「ファイルに保存」を選んでください。
+        </p>
+      </div>
     </section>
 
     <section id="docsScreen" class="screen">
@@ -188,7 +193,7 @@
 
     <section id="settingsScreen" class="screen">
       <div class="card">
-        <h2>自社情報</h2>
+        <h2>自社情報</h2><div class="badge">Ver.0.5</div>
         <label>社名・屋号</label><input id="bizName" placeholder="例：礎創建">
         <label>代表者名</label><input id="bizRep">
         <div class="row">
@@ -307,7 +312,7 @@ function startDoc(type){
 
 function updateItemDateVisibility(){
   document.querySelectorAll('.invoice-date-field').forEach(el=>{
-    el.style.display = currentType==='invoice' ? 'block' : 'none';
+    el.style.display = currentType!=='receipt' ? 'block' : 'none';
   });
 }
 
@@ -440,24 +445,20 @@ function renderPaper(d){
 }
 
 
-async function shareDocument(){
-  if(navigator.share){
-    try{
-      await navigator.share({
-        title:'相棒',
-        text:'作成した書類を共有'
-      });
-    }catch(e){}
-  }else{
-    alert('この端末では共有機能に対応していません。');
-  }
-}
-
-function saveAndPrint(){
+function saveCurrentDocument(){
   if(!previewData) return;
   const docs=load('aibou_docs',[]);
   if(!docs.some(x=>x.id===previewData.id)){ docs.unshift(previewData); save('aibou_docs',docs); }
   renderDocs();
+}
+
+function printDocument(){
+  saveCurrentDocument();
+  window.print();
+}
+function saveAsPdf(){
+  saveCurrentDocument();
+  alert('次の画面で共有ボタンを押し、「ファイルに保存」を選ぶとPDFとして保存できます。');
   window.print();
 }
 
