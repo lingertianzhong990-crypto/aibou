@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>相棒 Ver.1.1.1｜職人の事務をスマホで</title>
+<title>相棒 Ver.1.4｜職人の事務をスマホで</title>
 <style>
 :root{
   --blue:#135cc5;
@@ -150,41 +150,218 @@ th{background:#f1f3f5}
 .register-status{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .icon-title{display:flex;align-items:center;gap:8px}
 
+
+.hidden{display:none!important}.compact-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:540px){.compact-meta{grid-template-columns:1fr}}
+.draft-banner{background:#fff8db;border:1px solid #f0c95e;color:#7a5700;border-radius:14px;padding:12px;margin-bottom:14px;font-weight:800}
+.suggest-box{display:none;border:1px solid var(--line);border-radius:12px;background:#fff;margin-top:6px;overflow:hidden;box-shadow:0 8px 24px rgba(15,23,42,.08)}.suggest-box.show{display:block}
+.suggest-item{display:flex;justify-content:space-between;gap:10px;padding:11px 12px;border-bottom:1px solid #edf1f6;cursor:pointer}.suggest-item:last-child{border-bottom:none}.suggest-item:active{background:#f3f7fb}.suggest-label{font-weight:800}.suggest-count{font-size:12px;color:var(--muted)}
+.doc-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.convert-box{display:grid;gap:10px}.draft-card{border-left:7px solid #d8a400;background:#fffdf3}
+.small-danger{background:#ffeceb;color:var(--red);border:none;border-radius:10px;padding:8px 10px;font-weight:800}.small-primary{background:#eaf2ff;color:var(--blue);border:none;border-radius:10px;padding:8px 10px;font-weight:800}
+
+
+/* ===== Ver.1.3 compact app layout ===== */
+html,body{height:100%;overflow:hidden}
+body{background:#eef3f9}
+.app{
+  height:100dvh;
+  min-height:100dvh;
+  max-width:760px;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  overflow:hidden;
+  background:var(--bg)
+}
+header{
+  position:relative;
+  top:auto;
+  min-height:64px;
+  padding:10px 16px;
+  flex-shrink:0;
+}
+.brand{font-size:22px}
+.tag{font-size:11px}
+.top-actions{display:none}
+main{
+  min-height:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  padding:14px 14px 24px;
+}
+.screen{min-height:100%}
+.footer-space{display:none}
+
+.bottom-nav{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:4px;
+  background:#fff;
+  border-top:1px solid var(--line);
+  padding:7px 8px calc(7px + env(safe-area-inset-bottom));
+  z-index:30;
+}
+.bottom-nav button{
+  border:none;
+  background:transparent;
+  color:#718096;
+  border-radius:12px;
+  padding:7px 2px 6px;
+  min-width:0;
+  font-size:11px;
+  font-weight:800;
+}
+.bottom-nav button .nav-icon{
+  display:block;
+  font-size:21px;
+  line-height:1.05;
+  margin-bottom:3px;
+}
+.bottom-nav button.active{
+  color:var(--blue);
+  background:#eaf2ff;
+}
+
+.home-compact{
+  min-height:calc(100dvh - 150px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:14px;
+}
+.home-welcome{
+  text-align:center;
+  margin-bottom:4px;
+}
+.home-welcome h1{
+  margin:0 0 5px;
+  font-size:25px;
+}
+.home-welcome p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+}
+.create-menu{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.create-menu button{
+  border:none;
+  border-radius:18px;
+  min-height:148px;
+  padding:16px 8px;
+  text-align:center;
+  font-weight:900;
+  box-shadow:0 6px 18px rgba(15,23,42,.07);
+}
+.create-menu .big-icon{
+  display:block;
+  font-size:34px;
+  margin-bottom:12px;
+}
+.create-menu b{
+  display:block;
+  font-size:16px;
+}
+.create-menu small{
+  display:block;
+  font-size:11px;
+  font-weight:700;
+  opacity:.72;
+  margin-top:6px;
+}
+.create-estimate{background:var(--estimate-soft)!important;color:var(--estimate);border-bottom:5px solid var(--estimate)!important}
+.create-invoice{background:var(--invoice-soft)!important;color:var(--invoice);border-bottom:5px solid var(--invoice)!important}
+.create-receipt{background:var(--receipt-soft)!important;color:var(--receipt);border-bottom:5px solid var(--receipt)!important}
+
+.quick-status{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:2px;
+}
+.quick-status button{
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:13px;
+  padding:11px 8px;
+  color:var(--text);
+  font-weight:800;
+  font-size:12px;
+}
+.page-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+.page-head h2{margin:0;font-size:21px}
+.back-btn{
+  width:auto;
+  border:none;
+  background:#edf2f7;
+  border-radius:10px;
+  padding:8px 10px;
+  font-weight:900;
+}
+.docs-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:#e7edf5;
+  border-radius:12px;
+  padding:4px;
+  margin-bottom:12px;
+}
+.docs-tabs button{
+  border:none;
+  border-radius:9px;
+  padding:10px 6px;
+  font-weight:900;
+  background:transparent;
+  color:var(--muted);
+}
+.docs-tabs button.active{background:#fff;color:var(--blue);box-shadow:0 2px 8px rgba(15,23,42,.08)}
+
+@media(max-width:430px){
+  .create-menu{gap:8px}
+  .create-menu button{min-height:132px;padding:13px 5px}
+  .create-menu .big-icon{font-size:30px;margin-bottom:9px}
+  .create-menu b{font-size:14px}
+  .create-menu small{display:none}
+}
+@media(max-width:350px){
+  .create-menu{grid-template-columns:1fr}
+  .create-menu button{min-height:76px}
+  .create-menu .big-icon{display:inline;margin:0 8px 0 0;font-size:24px}
+}
+@media print{
+  html,body,.app{height:auto;overflow:visible}
+  .bottom-nav{display:none!important}
+  main{overflow:visible}
+}
+
+
+/* ===== Ver.1.4 ===== */
+.logo-lockup{display:flex;align-items:center;gap:10px}.aibou-logo{width:43px;height:43px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#1769d2,#0d47a1);box-shadow:0 5px 14px rgba(19,92,197,.25);flex:0 0 auto}.aibou-logo svg{width:32px;height:32px}.splash{position:fixed;inset:0;background:linear-gradient(145deg,#0d47a1,#1769d2);z-index:999;display:flex;align-items:center;justify-content:center;color:#fff;transition:opacity .32s,visibility .32s}.splash.hide{opacity:0;visibility:hidden}.splash-inner{text-align:center}.splash-logo{width:86px;height:86px;border-radius:26px;background:#fff;display:grid;place-items:center;margin:0 auto 18px}.splash-logo svg{width:62px;height:62px}.splash-title{font-size:34px;font-weight:900;letter-spacing:.08em}.splash-sub{font-size:13px;opacity:.9;margin-top:7px}
+.home-compact{justify-content:flex-start;padding-top:4px;gap:11px}.home-brand-card{background:linear-gradient(135deg,#0d47a1,#1769d2);color:#fff;border-radius:20px;padding:15px 16px;display:flex;align-items:center;gap:13px;box-shadow:0 8px 22px rgba(13,71,161,.18)}.home-brand-card .mark{width:50px;height:50px;border-radius:15px;background:#fff;display:grid;place-items:center;flex:0 0 auto}.home-brand-card svg{width:37px;height:37px}.home-brand-card h1{font-size:21px;margin:0 0 3px}.home-brand-card p{margin:0;font-size:12px;opacity:.9}.create-menu button{min-height:112px}.dashboard-grid,.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.dash-card,.tools-grid button{border:1px solid var(--line);background:#fff;border-radius:15px;padding:11px;text-align:left;font-weight:900;color:var(--text)}.dash-card strong{font-size:17px;display:block;margin-top:4px}.dash-card small{color:var(--muted);font-size:11px}.recent-strip{background:#fff;border:1px solid var(--line);border-radius:15px;padding:11px}.recent-strip h3{font-size:13px;margin:0 0 8px}.recent-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid #edf1f6}.recent-row:first-of-type{border-top:none}.recent-row button{width:auto;padding:7px 9px}.empty-mini{font-size:12px;color:var(--muted);padding:4px 0}
+.calendar-box,.month-chart{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px}.calendar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.calendar-head button{width:auto;padding:7px 10px}.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.calendar-grid .dow{font-size:11px;color:var(--muted);font-weight:800;padding:4px 0}.cal-day{border:none;background:#f7f9fc;border-radius:9px;min-height:38px;padding:4px 1px;font-size:12px;position:relative}.cal-day.has-doc{background:#eaf2ff;color:var(--blue);font-weight:900}.cal-day.selected{outline:2px solid var(--blue)}.cal-dot{width:5px;height:5px;background:var(--blue);border-radius:50%;position:absolute;bottom:4px;left:50%;transform:translateX(-50%)}.chart-bars{height:190px;display:flex;align-items:flex-end;gap:8px;padding:12px 4px 0;border-bottom:1px solid var(--line)}.bar-col{flex:1;min-width:0;text-align:center;height:100%;display:flex;flex-direction:column;justify-content:flex-end}.bar-value{font-size:9px;color:var(--muted);margin-bottom:4px;white-space:nowrap}.bar{width:72%;margin:0 auto;background:linear-gradient(180deg,#14804a,#51b477);border-radius:7px 7px 0 0;min-height:2px}.bar-label{font-size:10px;margin-top:5px;color:var(--muted)}.chart-total{text-align:center;font-weight:900;font-size:20px;margin:8px 0 0}
+.photo-zone{border:1px dashed #9fb2ca;border-radius:14px;padding:12px;background:#f8fbff;margin-top:12px}.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.photo-card{position:relative;aspect-ratio:1;border-radius:11px;overflow:hidden;background:#e8edf3}.photo-card img{width:100%;height:100%;object-fit:cover}.photo-card button{position:absolute;right:4px;top:4px;width:25px;height:25px;border:none;border-radius:50%;padding:0;background:rgba(0,0,0,.65);color:#fff}.voice-wrap{display:flex;gap:7px;align-items:stretch}.voice-wrap input{flex:1}.voice-btn{width:48px!important;flex:0 0 48px;border:none;border-radius:12px;background:#ffeceb;color:#b42318;font-size:20px}.voice-btn.listening{animation:pulse 1s infinite;background:#b42318;color:#fff}@keyframes pulse{50%{transform:scale(1.06)}}.paper-photos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px}.paper-photos img{width:100%;height:170px;object-fit:cover;border:1px solid #aaa}.paper-photos .caption{font-size:11px;text-align:center;margin-top:3px}
+
 </style>
 </head>
 <body>
-<div class="app">
-<header>
-  <div>
-    <div class="brand">相棒</div>
-    <div class="tag">職人の事務をスマホで</div>
-  </div>
-  <div class="top-actions">
-    <button class="mini" onclick="showScreen('homeScreen')">ホーム</button>
-  </div>
-</header>
+<div id="splash" class="splash"><div class="splash-inner"><div class="splash-logo"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M13 31c0-11 8-20 19-20s19 9 19 20" fill="#f6b91a"/><path d="M9 30h46v8H9z" fill="#f6b91a"/><path d="M23 14v16M41 14v16" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M19 43l8 7 18-17" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="splash-title">相棒</div><div class="splash-sub">職人の事務をスマホで。</div></div></div><div class="app">
+<header><div class="logo-lockup"><div class="aibou-logo"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M13 31c0-11 8-20 19-20s19 9 19 20" fill="#f6b91a"/><path d="M9 30h46v8H9z" fill="#f6b91a"/><path d="M23 14v16M41 14v16" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M19 43l8 7 18-17" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div id="headerTitle" class="brand">相棒</div><div class="tag">職人の事務をスマホで</div></div></div></header>
 
 <main>
-<section id="homeScreen" class="screen active">
-  <div class="card home-hero">
-    <h1>現場はあなた。<br>経営はスマホ。</h1>
-    <p>見積書・請求書・領収書を、スマホだけで作成できます。</p>
-  </div>
+<section id="homeScreen" class="screen active"><div class="home-compact"><div class="home-brand-card"><div class="mark"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M13 31c0-11 8-20 19-20s19 9 19 20" fill="#f6b91a"/><path d="M9 30h46v8H9z" fill="#f6b91a"/><path d="M23 14v16M41 14v16" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M19 43l8 7 18-17" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h1>今日もお疲れさまです。</h1><p>必要な書類を、すぐに作成できます。</p></div></div><div class="create-menu"><button class="create-estimate" onclick="startDocument('estimate')"><span class="big-icon">📄</span><b>見積書</b></button><button class="create-invoice" onclick="startDocument('invoice')"><span class="big-icon">🧾</span><b>請求書</b></button><button class="create-receipt" onclick="startDocument('receipt')"><span class="big-icon">💴</span><b>領収書</b></button></div><div class="dashboard-grid"><button class="dash-card" onclick="openDocumentsTab('drafts')">📝<strong><span id="homeDraftCount">0</span>件</strong><small>作成途中の下書き</small></button><button class="dash-card" onclick="openDocumentsTab('saved')">📂<strong><span id="homeDocCount">0</span>件</strong><small>保存している書類</small></button></div><div class="tools-grid"><button onclick="showCalendarPage()">📅 カレンダー</button><button onclick="showSalesPage()">📈 月別売上</button></div><div class="recent-strip"><h3>最近作った書類</h3><div id="homeRecentDocs"></div></div></div></section>
 
-  <div class="menu">
-    <button class="menu-estimate" onclick="startDocument('estimate')">📄<b>見積書を作る</b><span>工事内容と金額を入力</span></button>
-    <button class="menu-invoice" onclick="startDocument('invoice')">🧾<b>請求書を作る</b><span>作業日ごとの明細にも対応</span></button>
-    <button class="menu-receipt" onclick="startDocument('receipt')">💴<b>領収書を作る</b><span>その場で発行・保存</span></button>
-    <button class="menu-clients" onclick="showScreen('clientsScreen');renderClients()">👥<b>取引先管理</b><span>よく使う相手を保存</span></button>
-    <button class="menu-docs" onclick="showScreen('docsScreen');renderDocs()">📂<b>保存書類</b><span>作成した書類を確認</span></button>
-    <button class="menu-settings" onclick="showScreen('settingsScreen');loadSettings()">⚙️<b>自社情報</b><span>ロゴ・電子印鑑も登録</span></button>
-  </div>
-</section>
-
-<section id="settingsScreen" class="screen">
+<section id="calendarScreen" class="screen"><div class="page-head"><h2>📅 書類カレンダー</h2></div><div class="calendar-box"><div class="calendar-head"><button class="mini" onclick="moveCalendar(-1)">←</button><strong id="calendarTitle"></strong><button class="mini" onclick="moveCalendar(1)">→</button></div><div id="calendarGrid" class="calendar-grid"></div></div><div class="card" style="margin-top:12px"><h3 id="calendarSelectedTitle">日付を選択してください</h3><div id="calendarDocs"></div></div></section><section id="salesScreen" class="screen"><div class="page-head"><h2>📈 月別売上</h2></div><div class="month-chart"><div class="muted">請求書・領収書の合計（直近6か月）</div><div id="salesBars" class="chart-bars"></div><div id="salesTotal" class="chart-total">¥0</div></div><div class="card" style="margin-top:12px"><div class="muted">保存済みの請求書と領収書を発行日ごとに集計します。見積書は含めません。</div></div></section><section id="settingsScreen" class="screen">
+  <div class="page-head"><h2>⚙️ 設定</h2></div>
   <div class="card">
-    <div class="badge">相棒 Ver.1.1</div>
-    <h2 style="margin-top:10px" class="icon-title">⚙️ 自社情報</h2>
+    <div class="badge">相棒 Ver.1.4</div>
+    <h3 style="margin-top:10px" class="icon-title">自社情報</h3>
     <div class="register-status">
       <span id="logoStatus" class="status-chip status-none">ロゴ：未登録</span>
       <span id="sealStatus" class="status-chip status-none">印鑑：未登録</span>
@@ -224,8 +401,9 @@ th{background:#f1f3f5}
 </section>
 
 <section id="clientsScreen" class="screen">
+  <div class="page-head"><h2>👥 取引先</h2></div>
   <div class="card">
-    <h2>取引先管理</h2>
+    <h3>取引先を登録・編集</h3>
     <input type="hidden" id="clientId">
     <label>会社名・氏名</label><input id="clientName" placeholder="例：株式会社〇〇">
     <label>担当者名</label><input id="clientPerson" placeholder="例：山田様">
@@ -240,12 +418,13 @@ th{background:#f1f3f5}
 </section>
 
 <section id="createScreen" class="screen">
+  <div class="page-head">
+    <button class="back-btn" onclick="showScreen('homeScreen')">← 戻る</button>
+    <span class="muted">書類作成</span>
+  </div>
   <div class="card">
-    <div class="section-title section-blue">🗂️ 基本情報</div><h2 id="createTitle">書類作成</h2>
-    <div class="grid">
-      <div><label>書類番号</label><input id="docNo"></div>
-      <div><label>発行日</label><input id="docDate" type="date"></div>
-    </div>
+    <div id="draftNotice" class="draft-banner hidden">📝 下書きを編集中です</div><div class="section-title section-blue">🗂️ 基本情報</div><h2 id="createTitle">書類作成</h2>
+    <div class="compact-meta"><div class="hidden"><label>書類番号</label><input id="docNo"></div><div><label>📅 発行日</label><input id="docDate" type="date"></div></div>
 
     <label>取引先</label>
     <select id="docClient" onchange="applySelectedClient()"></select>
@@ -300,12 +479,16 @@ th{background:#f1f3f5}
       <div class="total-line total-main"><span>合計</span><strong id="totalText">¥0</strong></div>
     </div>
 
-    <div class="section-title section-gray" style="margin-top:14px">📝 備考</div><textarea id="docNote" aria-label="備考" placeholder="振込先、支払条件、工事条件など"></textarea>
-    <button class="primary" style="margin-top:14px" onclick="completeDocument()">書類を完成させる</button>
+    <div class="section-title section-blue" style="margin-top:14px">📷 現場写真</div><div class="photo-zone"><input id="docPhotoInput" type="file" accept="image/*" capture="environment" multiple onchange="handleDocumentPhotos(event)"><div class="muted">最大6枚。写真はこの端末内に保存され、書類にも表示できます。</div><div id="docPhotoGrid" class="photo-grid"></div></div><div class="section-title section-gray" style="margin-top:14px">📝 備考</div><textarea id="docNote" aria-label="備考" placeholder="振込先、支払条件、工事条件など"></textarea>
+    <div class="actions" style="margin-top:14px"><button class="secondary" onclick="saveDraft()">💾 下書き保存</button><button class="primary" onclick="completeDocument()">✅ 書類を完成させる</button></div>
   </div>
 </section>
 
 <section id="previewScreen" class="screen">
+  <div class="page-head no-print">
+    <button class="back-btn" onclick="showScreen('createScreen')">← 修正</button>
+    <span class="muted">完成書類</span>
+  </div>
   <div class="card complete-card no-print">
     <div class="complete-check">☑️</div>
     <div class="complete-title">書類が完成しました！</div>
@@ -327,9 +510,15 @@ th{background:#f1f3f5}
   </div>
 </section>
 
+<section id="draftsScreen" class="screen"><div class="card"><h2>📝 下書き</h2><div id="draftsList"></div></div></section>
 <section id="docsScreen" class="screen">
+  <div class="page-head"><h2>📂 書類</h2></div>
+  <div class="docs-tabs">
+    <button onclick="openDocumentsTab('drafts')">📝 下書き</button>
+    <button class="active" onclick="openDocumentsTab('saved')">📂 保存済み</button>
+  </div>
   <div class="card">
-    <h2>保存書類</h2>
+    <h3>保存書類</h3>
     <div id="docsList"></div>
   </div>
 </section>
@@ -337,6 +526,14 @@ th{background:#f1f3f5}
 <div class="footer-space"></div>
 </main>
 </div>
+
+<nav class="bottom-nav no-print">
+  <button id="navHome" class="active" onclick="showScreen('homeScreen')"><span class="nav-icon">🏠</span>ホーム</button>
+  <button id="navDocs" onclick="openDocumentsTab('saved')"><span class="nav-icon">📂</span>書類</button>
+  <button id="navClients" onclick="showScreen('clientsScreen');renderClients()"><span class="nav-icon">👥</span>取引先</button>
+  <button id="navSettings" onclick="showScreen('settingsScreen');loadSettings()"><span class="nav-icon">⚙️</span>設定</button>
+</nav>
+
 <div id="toast" class="toast">保存しました！</div>
 
 <script>
@@ -349,8 +546,11 @@ const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 
 let currentType='estimate';
 let previewData=null;
+let editingDraftId=null;
 let currentLogoData='';
 let currentSealData='';
+let currentDocumentPhotos=[];
+let calendarCursor=new Date();
 
 function showToast(message='保存しました！'){
   const t=$('toast');
@@ -359,10 +559,36 @@ function showToast(message='保存しました！'){
   clearTimeout(showToast.timer);
   showToast.timer=setTimeout(()=>t.classList.remove('show'),2200);
 }
+function updateHomeCounts(){
+  if($('homeDraftCount'))$('homeDraftCount').textContent=getDrafts().length;
+  if($('homeDocCount'))$('homeDocCount').textContent=getDocs().length;
+}
+function updateNavigation(id){
+  const map={homeScreen:'navHome',draftsScreen:'navDocs',docsScreen:'navDocs',clientsScreen:'navClients',settingsScreen:'navSettings'};
+  document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.remove('active'));
+  if(map[id] && $(map[id]))$(map[id]).classList.add('active');
+  const titles={
+    homeScreen:'相棒',draftsScreen:'書類',docsScreen:'書類',
+    clientsScreen:'取引先',settingsScreen:'設定',calendarScreen:'カレンダー',salesScreen:'月別売上',
+    createScreen:typeLabel(currentType)+'作成',previewScreen:'完成'
+  };
+  if($('headerTitle'))$('headerTitle').textContent=titles[id]||'相棒';
+}
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   $(id).classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+  updateNavigation(id);
+  updateHomeCounts();
+  if(id==='homeScreen')updateHomeDashboard();
+  const main=document.querySelector('main');
+  if(main)main.scrollTo({top:0,behavior:'smooth'});
+}
+function openDocumentsTab(tab){
+  if(tab==='drafts'){
+    showScreen('draftsScreen');renderDrafts();
+  }else{
+    showScreen('docsScreen');renderDocs();
+  }
 }
 
 function getSettings(){
@@ -371,9 +597,12 @@ function getSettings(){
 function getClients(){
   return JSON.parse(localStorage.getItem('aibou_clients')||'[]');
 }
-function getDocs(){
-  return JSON.parse(localStorage.getItem('aibou_docs')||'[]');
-}
+function getDocs(){return JSON.parse(localStorage.getItem('aibou_docs')||'[]');}
+function getDrafts(){return JSON.parse(localStorage.getItem('aibou_drafts')||'[]');}
+function getItemHistory(){return JSON.parse(localStorage.getItem('aibou_item_history')||'{}');}
+function saveItemHistory(items){const h=getItemHistory();items.forEach(x=>{const name=(x.name||'').trim();if(!name)return;if(!h[name])h[name]={count:0,lastUsed:''};h[name].count+=1;h[name].lastUsed=new Date().toISOString();});localStorage.setItem('aibou_item_history',JSON.stringify(h));}
+function nextDocNo(type){const key='aibou_counter_'+type;const current=Number(localStorage.getItem(key)||0)+1;localStorage.setItem(key,String(current));const prefix=type==='estimate'?'EST':type==='invoice'?'INV':'REC';return prefix+'-'+String(current).padStart(4,'0');}
+function peekNextDocNo(type){const current=Number(localStorage.getItem('aibou_counter_'+type)||0)+1;const prefix=type==='estimate'?'EST':type==='invoice'?'INV':'REC';return prefix+'-'+String(current).padStart(4,'0');}
 
 function resizeImage(file,maxWidth,maxHeight,quality=.82){
   return new Promise((resolve,reject)=>{
@@ -512,47 +741,13 @@ function applySelectedClient(){
   $('docClientAddress').value=c.address||'';
 }
 function typeLabel(t){return t==='estimate'?'見積書':t==='invoice'?'請求書':'領収書';}
-function startDocument(type){
-  currentType=type;
-  previewData=null;
-  $('createTitle').textContent=typeLabel(type)+'を作る';
-  $('docNo').value=(type==='estimate'?'EST':type==='invoice'?'INV':'REC')+'-'+new Date().getFullYear()+'-'+String(Date.now()).slice(-5);
-  $('docDate').value=today();
-  $('docSubject').value='';
-  $('docDue').value='';
-  $('docClientName').value='';
-  $('docClientPerson').value='';
-  $('docClientAddress').value='';
-  $('docNote').value='';
-  $('subjectWrap').style.display=type==='receipt'?'none':'block';
-  $('dueWrap').style.display=type==='receipt'?'none':'block';
-  $('dueLabel').textContent=type==='estimate'?'見積有効期限':'支払期限';
-  $('items').innerHTML='';
-  refreshClientSelect();
-  addItem();
-  calcTotals();
-  showScreen('createScreen');
-}
-function addItem(data={}){
-  const id=uid();
-  const div=document.createElement('div');
-  div.className='item';
-  div.dataset.id=id;
-  div.innerHTML=`
-    <div class="item-head"><strong>明細</strong><button class="danger mini" onclick="removeItem('${id}')">削除</button></div>
-    <div class="item-date-wrap">
-      <label>日付</label><input class="item-date" type="date" value="${esc(data.date||$('docDate').value||today())}">
-    </div>
-    <label>品名・工事内容</label><input class="item-name" value="${esc(data.name||'')}">
-    <div class="grid">
-      <div><label>数量</label><input class="item-qty" type="number" step="0.01" value="${esc(data.qty??1)}" oninput="calcTotals()"></div>
-      <div><label>単位</label><input class="item-unit" value="${esc(data.unit||'式')}"></div>
-    </div>
-    <label>単価</label><input class="item-price" type="number" step="1" value="${esc(data.price??0)}" oninput="calcTotals()">
-  `;
-  $('items').appendChild(div);
-  updateItemDateVisibility();
-}
+function startDocument(type){currentType=type;previewData=null;editingDraftId=null;$('draftNotice').classList.add('hidden');$('createTitle').textContent=typeLabel(type)+'を作る';$('docNo').value=peekNextDocNo(type);$('docDate').value=today();$('docSubject').value='';$('docDue').value='';$('docClientName').value='';$('docClientPerson').value='';$('docClientAddress').value='';$('docNote').value='';
+  currentDocumentPhotos=[];
+  renderDocumentPhotos();$('subjectWrap').style.display=type==='receipt'?'none':'block';$('dueWrap').style.display=type==='receipt'?'none':'block';$('dueLabel').textContent=type==='estimate'?'見積有効期限':'支払期限';$('items').innerHTML='';refreshClientSelect();addItem();calcTotals();showScreen('createScreen');}
+function addItem(data={}){const id=uid();const existing=[...document.querySelectorAll('.item-date')];const inheritedDate=data.date||(existing.length?existing[existing.length-1].value:($('docDate').value||today()));const div=document.createElement('div');div.className='item';div.dataset.id=id;div.innerHTML=`<div class="item-head"><strong>🧾 明細</strong><button class="danger mini" onclick="removeItem('${id}')">削除</button></div><div class="item-date-wrap"><label>📅 日付</label><input class="item-date" type="date" value="${esc(inheritedDate)}"></div><label>🔧 品名・工事内容</label><input class="item-name" value="${esc(data.name||'')}" autocomplete="off" oninput="showItemSuggestions(this)" onfocus="showItemSuggestions(this)"><div class="suggest-box"></div><div class="grid"><div><label>数量</label><input class="item-qty" type="number" step="0.01" value="${esc(data.qty??1)}" oninput="calcTotals()"></div><div><label>単位</label><input class="item-unit" value="${esc(data.unit||'式')}"></div></div><label>💴 単価</label><input class="item-price" type="number" step="1" value="${esc(data.price??0)}" oninput="calcTotals()">`;$('items').appendChild(div);updateItemDateVisibility();}
+function showItemSuggestions(input){const box=input.closest('.voice-wrap')?input.closest('.voice-wrap').nextElementSibling:input.nextElementSibling;const q=input.value.trim().toLowerCase();let entries=Object.entries(getItemHistory()).map(([name,v])=>({name,count:v.count||0,lastUsed:v.lastUsed||''}));entries.sort((a,b)=>b.count-a.count||String(b.lastUsed).localeCompare(String(a.lastUsed)));if(q)entries=entries.filter(x=>x.name.toLowerCase().includes(q));entries=entries.slice(0,6);if(!entries.length){box.classList.remove('show');box.innerHTML='';return;}box.innerHTML=entries.map(x=>`<div class="suggest-item" onclick="applyItemSuggestion(this,'${encodeURIComponent(x.name)}')"><span class="suggest-label">${esc(x.name)}</span><span class="suggest-count">${x.count}回使用</span></div>`).join('');box.classList.add('show');}
+function applyItemSuggestion(el,encoded){const box=el.parentElement;box.previousElementSibling.value=decodeURIComponent(encoded);box.classList.remove('show');}
+document.addEventListener('click',e=>{if(!e.target.classList.contains('item-name'))document.querySelectorAll('.suggest-box').forEach(x=>x.classList.remove('show'));});
 function updateItemDateVisibility(){
   document.querySelectorAll('.item-date-wrap').forEach(el=>el.style.display=currentType==='receipt'?'none':'block');
 }
@@ -583,21 +778,14 @@ function calcTotals(){
   $('totalText').textContent=yen(subtotal+tax);
   return {subtotal,tax,total:subtotal+tax};
 }
-function completeDocument(){
-  const items=collectItems();
-  if(items.every(x=>!x.name))return alert('明細を入力してください。');
-  const totals=calcTotals();
-  previewData={
-    id:uid(),type:currentType,no:$('docNo').value.trim(),date:$('docDate').value,
-    clientName:$('docClientName').value.trim(),clientPerson:$('docClientPerson').value.trim(),
-    clientAddress:$('docClientAddress').value.trim(),subject:$('docSubject').value.trim(),
-    due:$('docDue').value,note:$('docNote').value.trim(),taxRate:Number($('taxRate').value),
-    rounding:$('rounding').value,items,...totals,settings:getSettings(),createdAt:new Date().toISOString()
-  };
-  renderPaper(previewData);
-  $('completeTotalAmount').textContent=yen(previewData.total);
-  showScreen('previewScreen');
-}
+function collectCurrentForm(){const totals=calcTotals();return{id:editingDraftId||uid(),type:currentType,no:$('docNo').value.trim(),date:$('docDate').value,clientName:$('docClientName').value.trim(),clientPerson:$('docClientPerson').value.trim(),clientAddress:$('docClientAddress').value.trim(),subject:$('docSubject').value.trim(),due:$('docDue').value,note:$('docNote').value.trim(),taxRate:Number($('taxRate').value),rounding:$('rounding').value,items:collectItems(),...totals,settings:getSettings(),photos:currentDocumentPhotos,updatedAt:new Date().toISOString()};}
+function completeDocument(){const items=collectItems();if(items.every(x=>!x.name))return alert('明細を入力してください。');previewData=collectCurrentForm();previewData.id=uid();previewData.no=nextDocNo(currentType);previewData.createdAt=new Date().toISOString();$('docNo').value=previewData.no;saveItemHistory(items);if(editingDraftId){localStorage.setItem('aibou_drafts',JSON.stringify(getDrafts().filter(x=>x.id!==editingDraftId)));editingDraftId=null;}renderPaper(previewData);$('completeTotalAmount').textContent=yen(previewData.total);renderConvertActions(previewData.type);showScreen('previewScreen');}
+function saveDraft(){const d=collectCurrentForm();const drafts=getDrafts();const i=drafts.findIndex(x=>x.id===d.id);if(i>=0)drafts[i]=d;else drafts.unshift(d);localStorage.setItem('aibou_drafts',JSON.stringify(drafts));editingDraftId=d.id;$('draftNotice').classList.remove('hidden');showToast('下書きを保存しました！');}
+function renderDrafts(){const drafts=getDrafts();$('draftsList').innerHTML=drafts.length?drafts.map(d=>`<div class="list-item draft-card"><div class="list-row"><div><span class="doc-badge ${d.type==='estimate'?'doc-estimate':d.type==='invoice'?'doc-invoice':'doc-receipt'}">📝 ${typeLabel(d.type)}の下書き</span><br><strong>${esc(d.clientName||'宛名未入力')}</strong><div class="muted">${ymd(d.date)}　${yen(d.total||0)}</div></div><div class="doc-actions"><button class="small-primary" onclick="openDraft('${d.id}')">続きから</button><button class="small-danger" onclick="deleteDraft('${d.id}')">削除</button></div></div></div>`).join(''):'<div class="empty">下書きはありません。</div>';}
+function openDraft(id){const d=getDrafts().find(x=>x.id===id);if(!d)return;currentType=d.type;editingDraftId=d.id;previewData=null;$('draftNotice').classList.remove('hidden');$('createTitle').textContent=typeLabel(d.type)+'を編集';$('docNo').value=d.no||peekNextDocNo(d.type);$('docDate').value=d.date||today();$('docClientName').value=d.clientName||'';$('docClientPerson').value=d.clientPerson||'';$('docClientAddress').value=d.clientAddress||'';$('docSubject').value=d.subject||'';$('docDue').value=d.due||'';$('docNote').value=d.note||'';
+  currentDocumentPhotos=d.photos||[];
+  renderDocumentPhotos();$('taxRate').value=String(d.taxRate??10);$('rounding').value=d.rounding||'floor';$('subjectWrap').style.display=d.type==='receipt'?'none':'block';$('dueWrap').style.display=d.type==='receipt'?'none':'block';$('dueLabel').textContent=d.type==='estimate'?'見積有効期限':'支払期限';refreshClientSelect();$('items').innerHTML='';(d.items&&d.items.length?d.items:[{}]).forEach(x=>addItem(x));calcTotals();showScreen('createScreen');}
+function deleteDraft(id){if(!confirm('この下書きを削除しますか？'))return;localStorage.setItem('aibou_drafts',JSON.stringify(getDrafts().filter(x=>x.id!==id)));renderDrafts();showToast('下書きを削除しました。');}
 function renderPaper(d){
   const clientLine=[d.clientName,d.clientPerson].filter(Boolean).join(' ');
   $('paper').innerHTML=`
@@ -641,9 +829,15 @@ function renderPaper(d){
       <div class="total-line total-main"><span>合計</span><strong>${yen(d.total)}</strong></div>
     </div>
 
-    ${d.note?`<div class="paper-note"><strong>備考</strong><br>${esc(d.note)}</div>`:''}
+    ${d.photos&&d.photos.length?`<div class="paper-note"><strong>現場写真</strong><div class="paper-photos">${d.photos.map((p,i)=>`<div><img src="${p}" alt="現場写真${i+1}"><div class="caption">写真 ${i+1}</div></div>`).join('')}</div></div>`:''}${d.note?`<div class="paper-note"><strong>備考</strong><br>${esc(d.note)}</div>`:''}
   `;
 }
+function renderConvertActions(type){const box=$('convertActions');if(!box)return;if(type==='estimate')box.innerHTML='<button class="secondary" onclick="convertDocument(\'invoice\')">🧾 この内容で請求書を作る</button>';else if(type==='invoice')box.innerHTML='<button style="background:#fff4e5;color:#d97706;border:none;border-radius:12px;padding:13px 14px;font-weight:800;width:100%" onclick="convertDocument(\'receipt\')">💴 この内容で領収書を作る</button>';else box.innerHTML='';}
+function convertDocument(targetType){if(!previewData)return;const src=JSON.parse(JSON.stringify(previewData));currentType=targetType;editingDraftId=null;previewData=null;$('draftNotice').classList.add('hidden');$('createTitle').textContent=typeLabel(targetType)+'を作る';$('docNo').value=peekNextDocNo(targetType);$('docDate').value=today();$('docClientName').value=src.clientName||'';$('docClientPerson').value=src.clientPerson||'';$('docClientAddress').value=src.clientAddress||'';$('docSubject').value=src.subject||'';$('docDue').value='';$('docNote').value=src.note||'';
+  currentDocumentPhotos=src.photos||[];
+  renderDocumentPhotos();$('taxRate').value=String(src.taxRate??10);$('rounding').value=src.rounding||'floor';$('subjectWrap').style.display=targetType==='receipt'?'none':'block';$('dueWrap').style.display=targetType==='receipt'?'none':'block';$('dueLabel').textContent=targetType==='estimate'?'見積有効期限':'支払期限';refreshClientSelect();$('items').innerHTML='';(src.items||[]).forEach(x=>addItem(x));if(!$('items').children.length)addItem();calcTotals();showScreen('createScreen');showToast(typeLabel(targetType)+'へ内容を引き継ぎました！');}
+function duplicateDocument(id){const d=getDocs().find(x=>x.id===id);if(!d)return;const copy=JSON.parse(JSON.stringify(d));copy.id=uid();copy.no=peekNextDocNo(copy.type);copy.date=today();copy.createdAt='';copy.updatedAt=new Date().toISOString();const drafts=getDrafts();drafts.unshift(copy);localStorage.setItem('aibou_drafts',JSON.stringify(drafts));showToast('複製して下書きに保存しました！');showScreen('draftsScreen');renderDrafts();}
+async function shareDocument(){if(!previewData)return;saveCurrentDocument();const text=`${typeLabel(previewData.type)} ${previewData.no}\n${previewData.clientName||''}\n合計 ${yen(previewData.total)}`;if(navigator.share){try{await navigator.share({title:typeLabel(previewData.type),text});}catch(e){}}else{try{await navigator.clipboard.writeText(text);showToast('共有用の内容をコピーしました！');}catch(e){alert(text);}}}
 function saveCurrentDocument(){
   if(!previewData)return;
   const docs=getDocs();
@@ -661,31 +855,34 @@ function saveAsPdf(){
   alert('次の印刷画面で共有ボタンを押し、「ファイルに保存」を選ぶとPDFとして保存できます。');
   window.print();
 }
-function renderDocs(){
-  const docs=getDocs();
-  $('docsList').innerHTML=docs.length?docs.map(d=>`
-    <div class="list-item">
-      <div class="list-row">
-        <div>
-          <span class="doc-badge ${d.type==='estimate'?'doc-estimate':d.type==='invoice'?'doc-invoice':'doc-receipt'}">${d.type==='estimate'?'📄 見積書':d.type==='invoice'?'🧾 請求書':'💴 領収書'}</span><br>
-          <strong>${esc(d.clientName||'宛名なし')}</strong>
-          <div class="muted">${ymd(d.date)}　<strong style="font-size:16px">${yen(d.total)}</strong></div>
-        </div>
-        <div><button class="mini" onclick="openDoc('${d.id}')">開く</button> <button class="danger mini" onclick="deleteDoc('${d.id}')">削除</button></div>
-      </div>
-    </div>`).join(''):'<div class="empty">保存書類はまだありません。</div>';
-}
+function renderDocs(){const docs=getDocs();$('docsList').innerHTML=docs.length?docs.map(d=>`<div class="list-item"><div class="list-row"><div><span class="doc-badge ${d.type==='estimate'?'doc-estimate':d.type==='invoice'?'doc-invoice':'doc-receipt'}">${d.type==='estimate'?'📄 見積書':d.type==='invoice'?'🧾 請求書':'💴 領収書'}</span><br><strong>${esc(d.clientName||'宛名なし')}</strong><div class="muted">${ymd(d.date)}　<strong style="font-size:16px">${yen(d.total)}</strong></div></div><div class="doc-actions"><button class="mini" onclick="openDoc('${d.id}')">開く</button><button class="small-primary" onclick="duplicateDocument('${d.id}')">複製</button><button class="small-danger" onclick="deleteDoc('${d.id}')">削除</button></div></div></div>`).join(''):'<div class="empty">保存書類はまだありません。</div>';}
+
 function openDoc(id){
   const d=getDocs().find(x=>x.id===id);if(!d)return;
-  previewData=d;currentType=d.type;renderPaper(d);$('completeTotalAmount').textContent=yen(d.total);showScreen('previewScreen');
+  previewData=d;currentType=d.type;renderPaper(d);$('completeTotalAmount').textContent=yen(d.total);renderConvertActions(d.type);showScreen('previewScreen');
 }
-function deleteDoc(id){
-  if(!confirm('この書類を削除しますか？'))return;
-  localStorage.setItem('aibou_docs',JSON.stringify(getDocs().filter(x=>x.id!==id)));
-  renderDocs();
-}
+function deleteDoc(id){const d=getDocs().find(x=>x.id===id);const name=d?`${typeLabel(d.type)}「${d.clientName||'宛名なし'}」`:'この書類';if(!confirm(name+'を削除しますか？\n\n削除すると元に戻せません。'))return;localStorage.setItem('aibou_docs',JSON.stringify(getDocs().filter(x=>x.id!==id)));renderDocs();showToast('書類を削除しました。');}
+
+
+
+function updateHomeDashboard(){updateHomeCounts();const docs=getDocs().slice().sort((a,b)=>String(b.createdAt||b.date).localeCompare(String(a.createdAt||a.date))).slice(0,2);const w=$('homeRecentDocs');if(!w)return;w.innerHTML=docs.length?docs.map(d=>`<div class="recent-row"><div><strong>${d.type==='estimate'?'📄':d.type==='invoice'?'🧾':'💴'} ${typeLabel(d.type)}</strong><div class="muted">${esc(d.clientName||'宛名なし')}　${yen(d.total||0)}</div></div><button class="mini" onclick="openDoc('${d.id}')">開く</button></div>`).join(''):'<div class="empty-mini">まだ保存書類はありません。</div>'}
+function resizeDocumentPhoto(file,max=900,quality=.72){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const q=Math.min(max/i.width,max/i.height,1),c=document.createElement('canvas');c.width=Math.round(i.width*q);c.height=Math.round(i.height*q);c.getContext('2d').drawImage(i,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',quality))};i.onerror=()=>reject(new Error('写真を読み込めませんでした。'));i.src=r.result};r.onerror=()=>reject(new Error('写真を読み込めませんでした。'));r.readAsDataURL(file)})}
+async function handleDocumentPhotos(e){const files=[...(e.target.files||[])],available=Math.max(0,6-currentDocumentPhotos.length);if(!available){alert('写真は最大6枚です。');e.target.value='';return}try{for(const f of files.slice(0,available))currentDocumentPhotos.push(await resizeDocumentPhoto(f));renderDocumentPhotos();showToast('写真を追加しました！')}catch(err){alert(err.message||'写真の追加に失敗しました。')}e.target.value=''}
+function renderDocumentPhotos(){const g=$('docPhotoGrid');if(g)g.innerHTML=currentDocumentPhotos.map((p,i)=>`<div class="photo-card"><img src="${p}"><button type="button" onclick="removeDocumentPhoto(${i})">×</button></div>`).join('')}
+function removeDocumentPhoto(i){currentDocumentPhotos.splice(i,1);renderDocumentPhotos()}
+function startVoiceInput(b){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert('このブラウザは音声入力に対応していません。iPhoneではSafariで試してください。');return}const input=b.closest('.voice-wrap').querySelector('.item-name'),r=new R();r.lang='ja-JP';r.interimResults=false;b.classList.add('listening');b.textContent='●';r.onresult=e=>{input.value=(input.value?input.value+' ':'')+e.results[0][0].transcript;input.dispatchEvent(new Event('input',{bubbles:true}));showToast('音声を入力しました！')};r.onerror=()=>showToast('音声を認識できませんでした。');r.onend=()=>{b.classList.remove('listening');b.textContent='🎤'};r.start()}
+function showCalendarPage(){calendarCursor=new Date();showScreen('calendarScreen');renderCalendar()}
+function moveCalendar(d){calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+d,1);renderCalendar()}
+function renderCalendar(){const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),docs=getDocs();$('calendarTitle').textContent=`${y}年 ${m+1}月`;let h=['日','月','火','水','木','金','土'].map(x=>`<div class="dow">${x}</div>`).join('');for(let i=0;i<first.getDay();i++)h+='<div></div>';for(let d=1;d<=last.getDate();d++){const k=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,has=docs.some(x=>x.date===k);h+=`<button class="cal-day ${has?'has-doc':''}" onclick="selectCalendarDate('${k}',this)">${d}${has?'<span class="cal-dot"></span>':''}</button>`}$('calendarGrid').innerHTML=h;$('calendarSelectedTitle').textContent='日付を選択してください';$('calendarDocs').innerHTML='<div class="empty">青い日付には保存書類があります。</div>'}
+function selectCalendarDate(date,b){document.querySelectorAll('.cal-day').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');const docs=getDocs().filter(x=>x.date===date);$('calendarSelectedTitle').textContent=ymd(date)+' の書類';$('calendarDocs').innerHTML=docs.length?docs.map(d=>`<div class="list-item"><div class="list-row"><div><strong>${typeLabel(d.type)}｜${esc(d.clientName||'宛名なし')}</strong><div class="muted">${yen(d.total||0)}</div></div><button class="mini" onclick="openDoc('${d.id}')">開く</button></div></div>`).join(''):'<div class="empty">この日の書類はありません。</div>'}
+function showSalesPage(){showScreen('salesScreen');renderSalesChart()}
+function renderSalesChart(){const now=new Date(),months=[];for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);months.push({key:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,label:`${d.getMonth()+1}月`,value:0})}getDocs().filter(d=>d.type==='invoice'||d.type==='receipt').forEach(d=>{const b=months.find(x=>x.key===String(d.date||'').slice(0,7));if(b)b.value+=Number(d.total||0)});const max=Math.max(...months.map(x=>x.value),1);$('salesBars').innerHTML=months.map(x=>`<div class="bar-col"><div class="bar-value">${x.value?yen(x.value):''}</div><div class="bar" style="height:${Math.max(2,Math.round(x.value/max*145))}px"></div><div class="bar-label">${x.label}</div></div>`).join('');$('salesTotal').textContent='6か月合計 '+yen(months.reduce((a,x)=>a+x.value,0))}
 
 loadSettings();
+updateHomeCounts();
+updateHomeDashboard();
+updateNavigation('homeScreen');
+setTimeout(()=>$('splash')?.classList.add('hide'),650);
 </script>
 </body>
 </html>
